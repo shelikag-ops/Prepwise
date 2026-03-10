@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Meal Prep Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8820C;
+    --saffron-light: #FFF3E0;
+    --saffron-glow: rgba(232,130,12,0.12);
+    --deep: #1A1208;
+    --mid: #3D2B1A;
+    --cream: #FDF8F2;
+    --card-bg: #FFFDF9;
+    --text: #2C1A0E;
+    --muted: #8B6E52;
+    --border: rgba(232,130,12,0.2);
+    --green: #2D6A4F;
+    --green-light: #E8F5EE;
+    --comfort: #C0392B;
+    --comfort-light: #FDEDEC;
+    --eatout: #1565C0;
+    --eatout-light: #E3F2FD;
+    --step-done: #95A5A6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(232,130,12,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(232,130,12,0.04) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--deep);
+    padding: 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 14px 24px;
+    display: flex; align-items: center; gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 22px;
+    color: var(--saffron);
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+
+  .logo span { color: #FDF8F2; font-weight: 400; }
+
+  /* DAY TABS */
+  .day-tabs {
+    display: flex; gap: 4px; flex-wrap: wrap; flex: 1;
+  }
+
+  .day-tab {
+    padding: 7px 16px; border-radius: 20px;
+    border: 1.5px solid rgba(232,130,12,0.3);
+    background: transparent;
+    color: rgba(253,248,242,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .day-tab:hover { border-color: var(--saffron); color: var(--saffron); }
+  .day-tab.active {
+    background: var(--saffron); border-color: var(--saffron);
+    color: white; font-weight: 600;
+  }
+
+  /* TIME TOGGLE */
+  .time-toggle {
+    display: flex; gap: 4px; margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .time-btn {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid rgba(253,248,242,0.2);
+    background: transparent;
+    color: rgba(253,248,242,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .time-btn.active {
+    background: rgba(253,248,242,0.1);
+    border-color: rgba(253,248,242,0.4);
+    color: #FDF8F2;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; position: relative; z-index: 1; }
+
+  /* ── DAY HEADER ── */
+  .day-title-bar {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px; font-weight: 900;
+    color: var(--saffron);
+    line-height: 1;
+  }
+
+  .day-subtitle {
+    font-size: 14px; color: var(--muted);
+    font-weight: 400;
+  }
+
+  .progress-ring {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted);
+  }
+
+  .progress-bar {
+    width: 120px; height: 6px;
+    background: var(--border);
+    border-radius: 3px; overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%; background: var(--saffron);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── MEAL CARDS GRID ── */
+  .meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  /* ── MEAL CARD ── */
+  .meal-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.25s, transform 0.2s;
+    display: flex; flex-direction: column;
+  }
+
+  .meal-card:hover {
+    box-shadow: 0 8px 32px rgba(232,130,12,0.12);
+    transform: translateY(-2px);
+  }
+
+  .meal-card.comfort { border-color: rgba(192,57,43,0.3); }
+  .meal-card.eat-out { border-color: rgba(21,101,192,0.3); }
+
+  /* Card header */
+  .card-header {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--saffron-glow), transparent);
+    cursor: pointer;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  }
+
+  .meal-card.comfort .card-header { background: linear-gradient(135deg, rgba(192,57,43,0.06), transparent); }
+  .meal-card.eat-out .card-header { background: linear-gradient(135deg, rgba(21,101,192,0.06), transparent); }
+
+  .meal-time {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--saffron); margin-bottom: 4px;
+  }
+
+  .meal-card.comfort .meal-time { color: var(--comfort); }
+  .meal-card.eat-out .meal-time { color: var(--eatout); }
+
+  .meal-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--text); line-height: 1.3;
+  }
+
+  .card-chevron {
+    font-size: 18px; color: var(--muted);
+    transition: transform 0.25s; flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .meal-card.open .card-chevron { transform: rotate(180deg); }
+
+  /* Card body */
+  .card-body {
+    display: none; flex-direction: column;
+    flex: 1;
+  }
+
+  .meal-card.open .card-body { display: flex; }
+
+  /* Tabs inside card */
+  .card-tabs {
+    display: flex; border-bottom: 1px solid var(--border);
+    background: rgba(232,130,12,0.03);
+  }
+
+  .card-tab {
+    flex: 1; padding: 9px 8px;
+    font-size: 11px; font-weight: 600;
+    text-align: center; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--muted);
+    cursor: pointer; border: none; background: none;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .card-tab.active {
+    color: var(--saffron);
+    border-bottom-color: var(--saffron);
+    background: rgba(232,130,12,0.05);
+  }
+
+  .meal-card.comfort .card-tab.active { color: var(--comfort); border-bottom-color: var(--comfort); }
+  .meal-card.eat-out .card-tab.active { color: var(--eatout); border-bottom-color: var(--eatout); }
+
+  /* Tab panels */
+  .tab-panel { display: none; padding: 16px 18px; flex: 1; }
+  .tab-panel.active { display: block; }
+
+  /* Dish description */
+  .dish-desc {
+    font-size: 14px; line-height: 1.65; color: var(--text);
+    white-space: pre-line;
+  }
+
+  .dish-desc .macro-line {
+    display: inline-block; margin-top: 8px;
+    background: var(--saffron-light);
+    color: var(--saffron); font-weight: 600;
+    font-size: 12px; padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* Kids banner */
+  .kids-section {
+    background: var(--green-light);
+    border-left: 3px solid var(--green);
+    padding: 10px 14px; border-radius: 0 8px 8px 0;
+    font-size: 13px; line-height: 1.55;
+    color: #1a3d2b;
+  }
+
+  .kids-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--green); margin-bottom: 4px;
+  }
+
+  /* Prep steps */
+  .steps-list { list-style: none; }
+
+  .step-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(232,130,12,0.08);
+    cursor: pointer; transition: opacity 0.2s;
+  }
+
+  .step-item:last-child { border-bottom: none; }
+  .step-item.done { opacity: 0.45; }
+
+  .step-num {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    background: var(--saffron-light); color: var(--saffron);
+    transition: all 0.2s;
+    border: 1.5px solid rgba(232,130,12,0.3);
+  }
+
+  .step-item.done .step-num {
+    background: #eee; color: var(--step-done);
+    border-color: #ddd;
+    font-size: 14px;
+  }
+
+  .step-text {
+    font-size: 14px; line-height: 1.55; color: var(--text);
+    flex: 1; padding-top: 3px;
+    transition: color 0.2s;
+  }
+
+  .step-item.done .step-text { text-decoration: line-through; color: var(--step-done); }
+
+  /* Timer badge */
+  .timer-badge {
+    font-size: 11px; font-weight: 600;
+    background: rgba(232,130,12,0.1); color: var(--saffron);
+    padding: 2px 8px; border-radius: 10px;
+    flex-shrink: 0; margin-top: 5px;
+    display: flex; align-items: center; gap: 3px;
+  }
+
+  .comfort .timer-badge { background: rgba(192,57,43,0.1); color: var(--comfort); }
+
+  /* Empty state */
+  .no-steps {
+    color: var(--muted); font-size: 13px;
+    font-style: italic; padding: 8px 0;
+    text-align: center;
+  }
+
+  /* Recipe link */
+  .recipe-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px;
+    padding: 8px 14px; border-radius: 8px;
+    background: var(--saffron-light);
+    color: var(--saffron); text-decoration: none;
+    font-size: 12px; font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid rgba(232,130,12,0.2);
+  }
+
+  .recipe-link:hover { background: var(--saffron); color: white; }
+  .meal-card.comfort .recipe-link { background: var(--comfort-light); color: var(--comfort); border-color: rgba(192,57,43,0.2); }
+  .meal-card.comfort .recipe-link:hover { background: var(--comfort); color: white; }
+  .meal-card.eat-out .recipe-link { background: var(--eatout-light); color: var(--eatout); border-color: rgba(21,101,192,0.2); }
+  .meal-card.eat-out .recipe-link:hover { background: var(--eatout); color: white; }
+
+  /* Special badges */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.3px; margin-bottom: 6px;
+  }
+
+  .badge-comfort { background: var(--comfort-light); color: var(--comfort); }
+  .badge-eatout { background: var(--eatout-light); color: var(--eatout); }
+
+  /* PREP SUMMARY BAR */
+  .prep-summary {
+    background: var(--deep); color: #FDF8F2;
+    border-radius: 14px; padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .prep-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--saffron);
+  }
+
+  .prep-stat {
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  .prep-stat-num {
+    font-size: 26px; font-weight: 700;
+    color: white; line-height: 1;
+  }
+
+  .prep-stat-lbl {
+    font-size: 11px; color: rgba(253,248,242,0.5);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .prep-divider { width: 1px; height: 36px; background: rgba(253,248,242,0.1); }
+
+  /* QUICK CLEAR */
+  .clear-btn {
+    margin-left: auto;
+    padding: 8px 18px; border-radius: 20px;
+    border: 1.5px solid rgba(232,130,12,0.4);
+    background: transparent; color: var(--saffron);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .clear-btn:hover { background: var(--saffron); color: white; }
+
+  /* FULL PREP MODE */
+  .prep-mode-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--deep);
+    overflow-y: auto;
+  }
+
+  .prep-mode-overlay.show { display: flex; flex-direction: column; }
+
+  .prep-mode-header {
+    position: sticky; top: 0;
+    background: var(--deep);
+    padding: 20px 28px;
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid rgba(232,130,12,0.15);
+    z-index: 10;
+  }
+
+  .prep-mode-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; color: var(--saffron); font-weight: 700;
+  }
+
+  .prep-mode-close {
+    margin-left: auto;
+    background: none; border: 1.5px solid rgba(253,248,242,0.2);
+    color: #FDF8F2; padding: 8px 18px; border-radius: 20px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .prep-mode-close:hover { background: rgba(253,248,242,0.1); }
+
+  .prep-mode-body { padding: 28px; flex: 1; }
+
+  .prep-mode-step {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .prep-mode-step.done { opacity: 0.3; }
+
+  .prep-mode-num {
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    background: var(--saffron-glow); color: var(--saffron);
+    border: 2px solid var(--saffron);
+    transition: all 0.2s;
+  }
+
+  .prep-mode-step.done .prep-mode-num {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.2);
+    font-size: 22px;
+  }
+
+  .prep-mode-text {
+    font-size: 22px; line-height: 1.5;
+    color: rgba(253,248,242,0.9);
+    transition: all 0.2s;
+    padding-top: 8px;
+  }
+
+  .prep-mode-step.done .prep-mode-text {
+    text-decoration: line-through;
+    color: rgba(253,248,242,0.2);
+  }
+
+  /* EXPAND ALL */
+  .expand-all-btn {
+    padding: 8px 18px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: transparent; color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .expand-all-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  /* KITCHEN MODE BTN */
+  .kitchen-mode-btn {
+    position: fixed; bottom: 28px; right: 28px;
+    padding: 14px 22px; border-radius: 30px;
+    background: var(--saffron);
+    color: white; border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; z-index: 50;
+    box-shadow: 0 4px 20px rgba(232,130,12,0.4);
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .kitchen-mode-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(232,130,12,0.5);
+  }
+
+  /* ── FULL RECIPE PANEL ── */
+  .recipe-panel { padding: 16px 18px 20px; }
+  .recipe-panel-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--text); line-height: 1.2; }
+  .recipe-panel-subtitle { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .recipe-meta { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 14px; }
+  .recipe-meta-chip { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: var(--saffron-light); color: var(--saffron); border: 1px solid rgba(232,130,12,0.2); }
+  .recipe-desc-text { font-size: 13px; line-height: 1.65; color: var(--muted); font-style: italic; margin-bottom: 14px; padding-left: 10px; border-left: 2px solid var(--border); }
+  .recipe-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--saffron); margin: 14px 0 8px; }
+  .ingredient-group { margin-bottom: 10px; }
+  .ingredient-group-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 4px; }
+  .ingredient-list { list-style: none; }
+  .ingredient-item { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; border-bottom: 1px solid rgba(232,130,12,0.06); font-size: 13.5px; line-height: 1.5; color: var(--text); }
+  .ingredient-item::before { content: '·'; color: var(--saffron); font-weight: 700; flex-shrink: 0; }
+  .optional-group { opacity: 0.78; }
+  .optional-group .ingredient-group-name { color: var(--green); }
+  .method-steps { list-style: none; margin-top: 4px; }
+  .method-step { display: flex; gap: 14px; padding: 11px 0; border-bottom: 1px solid rgba(232,130,12,0.08); }
+  .method-step:last-child { border-bottom: none; }
+  .method-step-num { width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; background: var(--saffron); color: white; margin-top: 1px; }
+  .method-step-content { flex: 1; }
+  .method-step-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .method-step-text { font-size: 13.5px; line-height: 1.6; color: #4a3020; }
+  .method-step-timer { display: inline-flex; align-items: center; gap: 4px; margin-top: 5px; font-size: 11px; font-weight: 600; background: var(--saffron-light); color: var(--saffron); padding: 2px 9px; border-radius: 10px; }
+  .texture-box { background: linear-gradient(135deg, var(--saffron-light), #fff8ed); border: 1px solid rgba(232,130,12,0.25); border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.55; color: var(--text); margin-top: 4px; }
+  .serving-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .serving-tag { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--green-light); color: var(--green); border: 1px solid rgba(45,106,79,0.2); font-weight: 500; }
+
+  /* ── SECTION HEADINGS ── */
+  .section-heading {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: var(--text);
+    margin-bottom: 16px;
+  }
+  .section-icon { font-size: 20px; }
+  .section-for-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--muted); margin-left: 4px;
+  }
+
+  /* ── EVE PREP PANEL ── */
+  .eve-prep-panel {
+    display: flex; flex-direction: column; gap: 16px;
+    background: var(--deep);
+    border-radius: 16px; padding: 20px 22px;
+    margin-bottom: 40px;
+  }
+
+  .eve-section { }
+
+  .eve-section-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: rgba(232,130,12,0.7);
+    margin-bottom: 10px;
+  }
+
+  .eve-icon { font-size: 14px; }
+
+  .eve-prep-panel .step-item {
+    border-bottom-color: rgba(255,255,255,0.06);
+  }
+
+  .eve-prep-panel .step-text { color: rgba(253,248,242,0.85); }
+  .eve-prep-panel .step-item.done .step-text { color: rgba(253,248,242,0.25); }
+
+  .eve-step-num {
+    background: rgba(232,130,12,0.15) !important;
+    border-color: rgba(232,130,12,0.3) !important;
+    color: var(--saffron) !important;
+  }
+
+  .step-item.done .eve-step-num {
+    background: rgba(255,255,255,0.05) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: rgba(255,255,255,0.2) !important;
+  }
+
+  .eve-tag {
+    display: inline-block; margin-top: 4px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; color: rgba(232,130,12,0.5);
+    background: rgba(232,130,12,0.08);
+    padding: 2px 8px; border-radius: 8px;
+  }
+
+  /* ── NUTRITION TAB ── */
+  .nutrition-tab { background: linear-gradient(135deg, #e8f5e9, #f3e5f5) !important; }
+  .nutrition-tab.active { background: linear-gradient(135deg, #2D6A4F, #7B5EA7) !important; color: white !important; }
+  .nutrition-panel { padding: 4px 2px 8px; }
+  .nutrition-disclaimer { font-size: 11px; color: #888; background: #fafafa; border-radius: 6px; padding: 7px 10px; margin-bottom: 12px; line-height: 1.5; border: 1px solid #eee; }
+  .nutri-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #999; margin-bottom: 6px; }
+  .nutri-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .nutri-table th { font-size: 11px; font-weight: 600; color: #aaa; padding: 0 6px 6px; text-align: left; }
+  .th-bar { width: 80px; }
+  .nrow td { padding: 5px 6px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+  .nrow:last-child td { border-bottom: none; }
+  .nlabel { font-weight: 500; color: var(--text); min-width: 120px; }
+  .nval { font-weight: 700; color: var(--deep); min-width: 52px; }
+  .nunit { font-size: 11px; font-weight: 400; color: #999; margin-left: 1px; }
+  .nbar-cell { width: 80px; padding: 5px 8px; }
+  .nbar-bg { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; width: 100%; }
+  .nbar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .npct { font-size: 11px; color: #888; min-width: 60px; white-space: nowrap; }
+  .nflag { font-size: 10px; color: #e67e22; font-weight: 600; }
+
+  /* ── DAILY NUTRITION BAR ── */
+  .daily-nutrition-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; background: white; border: 1px solid #e8e8e8; border-radius: 14px; padding: 14px 18px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .dn-chip { text-align: center; min-width: 52px; }
+  .dn-chip.micro { min-width: 62px; }
+  .dn-val { font-size: 15px; font-weight: 700; color: var(--deep); line-height: 1.2; }
+  .dn-lbl { font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+  .dn-divider { width: 1px; height: 32px; background: #e8e8e8; margin: 0 4px; }
+  .dn-warn .dn-val { color: #e67e22; }
+  .dn-warn .dn-lbl { color: #e67e22; }
+
+  /* ── EXPORT BUTTON ── */
+  .export-btn { margin-left: auto; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; border: 1.5px solid #2D6A4F; color: #2D6A4F; background: white; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; }
+  .export-btn:hover { background: #2D6A4F; color: white; }
+
+  /* ── SNACK CARD ── */
+  .snack-card { border-color: rgba(45,106,79,0.3) !important; background: var(--green-light) !important; }
+  .snack-morning { border-color: rgba(123,94,167,0.3) !important; background: #F5F0FF !important; }
+  .snack-header { padding: 14px 18px 10px; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid rgba(45,106,79,0.15); }
+  .snack-morning .snack-header { border-bottom-color: rgba(123,94,167,0.15); }
+  .snack-edit-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--green); background: rgba(45,106,79,0.12); padding: 3px 9px; border-radius: 10px; border: 1px solid rgba(45,106,79,0.2); margin-top: 4px; }
+  .morning-badge { color: #7B5EA7 !important; background: rgba(123,94,167,0.1) !important; border-color: rgba(123,94,167,0.2) !important; }
+  .snack-body { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .snack-row { display: flex; align-items: center; gap: 10px; }
+  .snack-icon { font-size: 18px; flex-shrink: 0; }
+  .snack-input { flex: 1; border: 1.5px solid rgba(45,106,79,0.25); border-radius: 8px; padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; background: white; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+  .snack-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+  .morning-input:focus { border-color: #7B5EA7 !important; box-shadow: 0 0 0 3px rgba(123,94,167,0.1) !important; }
+  .snack-note { font-size: 11px; font-weight: 600; color: var(--green); text-align: right; opacity: 0.7; margin-top: 2px; }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .meal-card { animation: fadeInUp 0.3s ease both; }
+  .meal-card:nth-child(1) { animation-delay: 0.05s; }
+  .meal-card:nth-child(2) { animation-delay: 0.1s; }
+  .meal-card:nth-child(3) { animation-delay: 0.15s; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .day-title { font-size: 28px; }
+    .meals-grid { grid-template-columns: 1fr; }
+    .prep-summary { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .prep-mode-text { font-size: 18px; }
+    .kitchen-mode-btn { bottom: 16px; right: 16px; }
+  }
+
+  /* ── VIEW NAV ── */
+  .view-nav { display: flex; gap: 4px; margin-right: 8px; flex-shrink: 0; }
+  .view-btn {
+    padding: 6px 13px; border-radius: 20px;
+    border: 1.5px solid rgba(232,130,12,0.3);
+    background: transparent; color: rgba(253,248,242,0.6);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .view-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+  .view-btn.active { background: var(--saffron); border-color: var(--saffron); color: white; font-weight: 600; }
+
+  /* ── PREP GUIDE ── */
+  .pg-hero { background: var(--deep); color: var(--cream); border-radius: 16px; padding: 32px 36px; margin-bottom: 28px; }
+  .pg-hero h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--saffron); margin-bottom: 8px; }
+  .pg-hero p { font-size: 14px; color: rgba(253,248,242,0.65); max-width: 580px; line-height: 1.6; }
+  .pg-windows { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 20px; }
+  .pg-window { background: rgba(232,130,12,0.12); border: 1px solid rgba(232,130,12,0.3); border-radius: 10px; padding: 14px 18px; }
+  .pg-window-label { font-size: 10px; font-weight: 700; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+  .pg-window-title { font-size: 15px; font-weight: 700; color: var(--cream); margin-bottom: 3px; }
+  .pg-window-time { font-size: 12px; color: rgba(253,248,242,0.5); }
+  .pg-section { margin-bottom: 36px; }
+  .pg-section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--saffron); margin-bottom: 4px; padding-bottom: 10px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .pg-section-desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .pg-items { display: flex; flex-direction: column; gap: 14px; }
+  .pg-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .pg-card-header { display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px 14px; cursor: pointer; border-left: 4px solid var(--saffron); transition: background 0.15s; }
+  .pg-card-header:hover { background: var(--saffron-light); }
+  .pg-card-num { width: 30px; height: 30px; border-radius: 50%; background: var(--saffron); color: white; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pg-card-meta { flex: 1; }
+  .pg-card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .pg-card-subtitle { font-size: 13px; color: var(--muted); }
+  .pg-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .pg-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: var(--green-light); color: var(--green); }
+  .pg-tag.uses { background: #FFF3E0; color: #C8620A; }
+  .pg-card-toggle { font-size: 18px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; padding-top: 2px; }
+  .pg-card.open .pg-card-toggle { transform: rotate(180deg); }
+  .pg-card-body { padding: 0 20px 18px; display: none; }
+  .pg-card.open .pg-card-body { display: block; }
+  .pg-meta-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 8px; margin-bottom: 16px; }
+  .pg-meta-cell { background: var(--saffron-light); border-radius: 8px; padding: 10px 12px; }
+  .pg-meta-label { font-size: 10px; font-weight: 700; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .pg-meta-val { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .pg-steps { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+  .pg-step { display: flex; gap: 10px; align-items: flex-start; background: var(--green-light); border-radius: 8px; padding: 10px 12px; }
+  .pg-step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pg-step-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .pg-rolling-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 12px; }
+  .pg-rolling-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-left: 4px solid var(--green); }
+  .pg-rolling-title { font-size: 14px; font-weight: 700; color: var(--green); margin-bottom: 5px; }
+  .pg-rolling-note { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .pg-smoothie-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  .pg-smoothie-table th { background: var(--saffron); color: white; padding: 8px 12px; text-align: left; font-weight: 600; font-size: 12px; }
+  .pg-smoothie-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .pg-smoothie-table tr:nth-child(even) td { background: var(--saffron-light); }
+  .pg-fridge-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pg-fridge-table th { background: var(--saffron); color: white; padding: 9px 12px; text-align: left; font-weight: 600; font-size: 12px; }
+  .pg-fridge-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .pg-fridge-table tr:last-child td { border-bottom: none; }
+  .pg-fridge-table tr:nth-child(even) td { background: var(--saffron-light); }
+
+  /* ── RECIPE BOOK ── */
+  .rb-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 0; min-height: 70vh; }
+  @media (max-width: 760px) { .rb-wrap { grid-template-columns: 1fr; } }
+  .rb-sidebar { background: var(--deep); border-radius: 0 0 0 12px; padding: 16px 0; position: sticky; top: 64px; align-self: start; max-height: calc(100vh - 80px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--saffron) transparent; }
+  .rb-sidebar-heading { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--saffron); padding: 10px 18px 4px; }
+  .rb-sidebar-item { display: block; width: 100%; padding: 7px 18px; background: none; border: none; border-left: 3px solid transparent; text-align: left; color: rgba(253,248,242,0.55); font-size: 12px; font-family: 'DM Sans',sans-serif; cursor: pointer; transition: all 0.15s; line-height: 1.3; }
+  .rb-sidebar-item:hover { color: var(--saffron); border-left-color: rgba(232,130,12,0.4); }
+  .rb-sidebar-item.active { color: var(--saffron); background: rgba(232,130,12,0.1); border-left-color: var(--saffron); font-weight: 600; }
+  .rb-content { padding: 28px 32px; }
+  @media (max-width: 760px) { .rb-content { padding: 20px 16px; } }
+  .rb-recipe-title { font-family: 'Playfair Display',serif; font-size: 30px; font-weight: 900; color: var(--saffron); line-height: 1.1; margin-bottom: 5px; }
+  .rb-recipe-subtitle { font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+  .rb-day-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; background: var(--saffron-light); color: var(--saffron); margin-bottom: 14px; }
+  .rb-desc { font-size: 14px; color: var(--text); line-height: 1.7; padding: 14px 18px; background: var(--saffron-light); border-left: 4px solid var(--saffron); border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+  .rb-meta-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .rb-chip { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; }
+  .rb-chip span { display: block; font-size: 10px; font-weight: 700; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .rb-macro-bar { display: flex; gap: 6px; flex-wrap: wrap; padding: 12px 16px; background: var(--saffron-light); border-radius: 10px; margin-bottom: 24px; }
+  .rb-macro-chip { text-align: center; flex: 1; min-width: 55px; }
+  .rb-macro-icon { font-size: 14px; }
+  .rb-macro-val { font-size: 14px; font-weight: 700; color: var(--saffron); }
+  .rb-macro-label { font-size: 10px; color: var(--muted); }
+  .rb-section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--saffron); margin: 22px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--saffron); }
+  .rb-ingredient-group { margin-bottom: 14px; }
+  .rb-ig-name { font-size: 12px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+  .rb-ig-list { list-style: none; }
+  .rb-ig-list li { padding: 4px 0 4px 14px; font-size: 13px; color: var(--text); border-bottom: 1px solid rgba(0,0,0,0.04); position: relative; }
+  .rb-ig-list li::before { content: '·'; position: absolute; left: 3px; color: var(--saffron); font-weight: 700; }
+  .rb-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+  .rb-step { display: flex; gap: 12px; background: var(--green-light); border-radius: 8px; padding: 12px 14px; align-items: flex-start; }
+  .rb-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .rb-step-body { flex: 1; }
+  .rb-step-title { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 3px; }
+  .rb-step-timer { font-size: 11px; color: var(--muted); margin-left: 6px; }
+  .rb-step-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .rb-serving { background: #E6F7F6; border-left: 4px solid #0B7A75; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-top: 4px; }
+  .rb-serving-title { font-size: 12px; font-weight: 700; color: #0B7A75; margin-bottom: 7px; }
+  .rb-serving ul { list-style: none; }
+  .rb-serving li { font-size: 13px; color: var(--text); padding: 2px 0 2px 14px; position: relative; }
+  .rb-serving li::before { content: '→'; position: absolute; left: 0; color: #0B7A75; font-size: 11px; }
+  .rb-foundation .rb-recipe-title { color: #A0390A; }
+  .rb-foundation .rb-section-label { color: #A0390A; border-bottom-color: #A0390A; }
+  .rb-foundation .rb-desc { background: #FFF0EB; border-left-color: #A0390A; }
+  .rb-foundation .rb-day-badge { background: #FFF0EB; color: #A0390A; }
+  .rb-week-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; background: rgba(45,106,79,0.12); color: var(--green); margin-bottom: 10px; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">Prep<span>Wise</span></div>
+    <div class="view-nav">
+      <button class="view-btn active" data-view="mealplan" onclick="switchView('mealplan')">📅 Meal Plan</button>
+      <button class="view-btn" data-view="prepguide" onclick="switchView('prepguide')">🧑‍🍳 Prep Guide</button>
+      <button class="view-btn" data-view="recipes" onclick="switchView('recipes')">📖 Recipes</button>
+    </div>
+    <div class="day-tabs" id="dayTabs"></div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main" id="main"></main>
+
+<!-- KITCHEN MODE OVERLAY -->
+<div class="prep-mode-overlay" id="prepOverlay">
+  <div class="prep-mode-header">
+    <div class="prep-mode-title" id="overlayTitle">Kitchen Mode</div>
+    <div id="overlayProgress" style="color:rgba(253,248,242,0.5);font-size:13px;"></div>
+    <button class="prep-mode-close" onclick="closeKitchenMode()">✕ Exit Kitchen Mode</button>
+  </div>
+  <div class="prep-mode-body" id="overlayBody"></div>
+</div>
+
+<!-- FAB -->
+<button class="kitchen-mode-btn" onclick="openKitchenMode()" id="kitchenFab">
+  🍳 Kitchen Mode
+</button>
+
+<script>
+// ── EVE_PREP: collated evening prep per day ──
+// Each entry describes what you do TONIGHT to be ready for TOMORROW (and day-after checks)
+// Structure: { forDay, sections: [{ label, icon, items: [{ text, tag }] }] }
+const EVE_PREP = {
+  "Tuesday": {
+    forDay: "Wednesday",
+    sections: [
+      {
+        label: "Cook tonight — ready to heat tomorrow",
+        icon: "🍳",
+        items: [
+          { text: "🫓 ROTI DOUGH BATCH 1 — make tonight (Monday). Mix 3 cups whole wheat atta + ¾ tsp salt + 1 tbsp oil + ~¾ cup warm water. Knead 8–10 min until smooth and elastic. Coat ball with oil, place in airtight container. Stays fresh in fridge up to 3 days — covers Tue, Wed & Thu rotis/parathas.", tag: "Tue-Thu Rotis" },
+          { text: "Roast eggplant directly on flame/oven until charred; scoop flesh; refrigerate", tag: "Wed Lunch" },
+          { text: "Make eggplant-chickpea curry base (onion-tomato-spice); refrigerate", tag: "Wed Lunch" },
+          { text: "Cook brown rice — cool, refrigerate (for Wed lunch if serving rice alongside)", tag: "Wed Lunch" },
+          { text: "Optional ahead-prep: cube & roast sweet potato (400°F, 20–25 min) + pan-fry tofu cubes until golden — refrigerate for tonight's 5:30 PM salad", tag: "Tue Evening" }
+        ]
+      },
+      {
+        label: "Soak overnight",
+        icon: "💧",
+        items: [
+          { text: "Soak moong dal overnight — for Wednesday chilla batter", tag: "Wed Lunch" }
+        ]
+      },
+      {
+        label: "Check & prep for Thursday (day after tomorrow)",
+        icon: "📋",
+        items: [
+          { text: "Check: zucchini (½ needed for frittata), spinach, feta, eggs — all in fridge?", tag: "Thu Breakfast" },
+          { text: "Check: yellow + red capsicum (2), paneer, lentils, tomatoes — for stuffed capsicum curry", tag: "Thu Lunch" }
+        ]
+      }
+    ]
+  },
+  "Wednesday": {
+    forDay: "Thursday",
+    sections: [
+      {
+        label: "Cook tonight — ready to heat tomorrow",
+        icon: "🍳",
+        items: [
+          { text: "Bake frittata: sauté zucchini, mix with eggs + spinach + feta, bake 180°C for 20 min; cool and refrigerate", tag: "Thu Breakfast" },
+          { text: "Make stuffed capsicum lentil-paneer filling; stuff yellow + red capsicums; make tomato curry base; refrigerate", tag: "Thu Lunch" }
+        ]
+      },
+      {
+        label: "No soaking needed tonight", icon: "💧", items: []
+      },
+      {
+        label: "Check & prep for Friday (day after tomorrow)",
+        icon: "📋",
+        items: [
+          { text: "Check: white mushrooms (1 pack), eggs, spinach, cheddar — for mushroom scramble", tag: "Fri Breakfast" },
+          { text: "Check: tofu (firm), green peas, multigrain roti flour or rotis, cucumber — for mushroom-tofu keema", tag: "Fri Lunch" }
+        ]
+      }
+    ]
+  },
+  "Thursday": {
+    forDay: "Friday",
+    sections: [
+      {
+        label: "Cook tonight — ready to heat tomorrow",
+        icon: "🍳",
+        items: [
+          { text: "🫓 ROTI DOUGH BATCH 2 — make tonight (Thursday). Mix 3½ cups whole wheat atta + 1 tsp salt + 1 tbsp oil + ~¾ cup warm water. Knead 8–10 min until smooth. Coat with oil, wrap tight. Refrigerates for up to 3 days — covers Fri, Sat & Sun rotis/parathas. Tip: fold in 2 tbsp rolled oats or 1 tbsp ground flaxseed for Friday's multigrain rotis.", tag: "Fri–Sun Rotis" },
+          { text: "🫓 ROTI DOUGH BATCH 2 — make tonight (Thursday). Mix 3½ cups whole wheat atta + 1 tsp salt + 1 tbsp oil + ~¾ cup warm water. Knead 8–10 min until smooth. Coat with oil, wrap tight. Stays fresh in fridge up to 3 days — covers Fri, Sat & Sun. Tip: fold in 2 tbsp rolled oats or 1 tbsp ground flaxseed for Friday's multigrain rotis.", tag: "Fri-Sun Rotis" },
+          { text: "Mince remaining mushrooms + tofu; cook mushroom-tofu keema with spices; refrigerate", tag: "Fri Lunch" },
+          { text: "Roast remaining sweet potato (cubed) for salad", tag: "Fri Evening" }
+        ]
+      },
+      {
+        label: "No soaking needed tonight", icon: "💧", items: []
+      },
+      {
+        label: "Check & prep for Saturday (day after tomorrow)",
+        icon: "📋",
+        items: [
+          { text: "Check: avocados (2 ripe), eggs, multigrain bread — for avocado toast + poached eggs", tag: "Sat Breakfast" },
+          { text: "Check: sweet potato (2), black beans, tomatoes, cream — for tikka masala", tag: "Sat Lunch" }
+        ]
+      }
+    ]
+  },
+  "Friday": {
+    forDay: "Saturday",
+    sections: [
+      {
+        label: "Cook tonight — ready to heat tomorrow",
+        icon: "🍳",
+        items: [
+          { text: "Make anda masala base: onion-tomato-coconut gravy; refrigerate", tag: "Fri Comfort" },
+          { text: "Boil 6 eggs; peel and refrigerate", tag: "Fri Comfort" },
+          { text: "Boil remaining sweet potatoes; mash half for paratha, cube half for curry", tag: "Sat Lunch" },
+          { text: "Cook sweet potato-black bean tikka masala base; refrigerate", tag: "Sat Lunch" },
+          { text: "Optional ahead-prep: cook 1 cup quinoa + boil 3 eggs + whisk thai peanut dressing + slice cucumbers & peppers — refrigerate for tonight's 5:30 PM bowl; keep salad undressed until serving", tag: "Sat Evening" }
+        ]
+      },
+      {
+        label: "No soaking needed tonight", icon: "💧", items: []
+      },
+      {
+        label: "Check & prep for Sunday (day after tomorrow)",
+        icon: "📋",
+        items: [
+          { text: "Check: avocados (3 remaining), arugula, mini peppers — for Saturday evening salad & smoothie", tag: "Sat Evening" },
+          { text: "Sunday is eat-out brunch — no cooking prep needed in the morning", tag: "Sun Breakfast" },
+          { text: "Reminder: boil both yucca roots Sunday evening on return from brunch", tag: "Sun Lunch" }
+        ]
+      }
+    ]
+  },
+  "Saturday": {
+    forDay: "Sunday",
+    sections: [
+      {
+        label: "Do on return from Sunday brunch",
+        icon: "🍳",
+        items: [
+          { text: "Boil & peel BOTH yucca roots; refrigerate (needed for Sunday lunch)", tag: "Sun Lunch" },
+          { text: "Make shakshuka base for Monday — optional if continuing the plan", tag: "Mon Breakfast" }
+        ]
+      },
+      {
+        label: "No soaking needed tonight", icon: "💧", items: []
+      },
+      {
+        label: "Check before Sunday brunch",
+        icon: "📋",
+        items: [
+          { text: "Check: chickpeas (1 can or cooked), coconut milk, curry leaves, spinach — for Sunday yucca stew", tag: "Sun Lunch" },
+          { text: "Check: lettuce hearts (2-3), avocado (1), arugula, sesame — for Sunday evening salad", tag: "Sun Evening" }
+        ]
+      }
+    ]
+  },
+  "Sunday": {
+    forDay: "Monday",
+    sections: [
+      {
+        label: "Prep on return from brunch today",
+        icon: "🍳",
+        items: [
+          { text: "Boil & peel BOTH yucca roots tonight; refrigerate — for today's lunch", tag: "Sun Lunch" }
+        ]
+      },
+      {
+        label: "No soaking needed", icon: "💧", items: []
+      },
+      {
+        label: "Looking ahead to Monday",
+        icon: "📋",
+        items: [
+          { text: "If continuing the plan Monday, check your fridge is stocked for the next week", tag: "Mon Prep" }
+        ]
+      }
+    ]
+  }
+};
+
+const MEAL_DATA = [{"day": "Tuesday", "meal": "10 AM ☀ Breakfast", "adult": "Capsicum-Egg Menemen\n3 eggs scrambled with 1 green capsicum + mini peppers (handful) + tomato + feta\nProtein ~22g | Fiber ~5g\nSeed boost: 1 tbsp hemp seeds stirred in\n🥜 5 soaked almonds + 1 walnut + 1 soaked fig (alongside breakfast)", "kids": "Same menemen (skip feta for toddler). Soft bread for dipping. Toddler: picks up soft egg pieces.", "recipe_label": "Menemen Recipe – Love & Lemons", "recipe_url": "https://www.loveandlemons.com/shakshuka-recipe/", "morning": "Sauté capsicum + mini peppers 3 min, add eggs & scramble 7 min\nSlice feta", "eve": "", "macros": {"name": "Capsicum-Egg Menemen + almonds/walnut/fig", "note": "3 eggs + capsicum + feta + hemp seeds + 5 almonds + 1 walnut + 1 fig", "kcal": 420, "protein": 27, "carbs": 18, "fat": 28, "fiber": 5, "iron": 3.8, "calcium": 210, "b12": 1.6, "zinc": 3.2, "vitc": 62, "folate": 85}}, {"day": "Tuesday", "meal": "11:00 AM 🥜 Kids Morning Snack", "adult": "", "kids": "🥜 5 almonds + 1 walnut (soaked, shared with adults)\n🍎 sliced banana + a few strawberries", "kids_snack_editable": true, "snack_type": "morning", "recipe_label": "", "recipe_url": "", "morning": "", "eve": ""}, {"day": "Tuesday", "meal": "1:30 PM 🥗 Lunch", "adult": "Palak Paneer + brown rice + Broccoli (remaining half head) with lemon & hemp seeds\nProtein ~28g | Fiber ~14g\nSeed boost: 1 tbsp hemp seeds on rice", "kids": "Methi-Paneer Paratha (1–2)\n+ curd + broccoli with lemon\nProtein ~16g\nToddler: soft paratha pieces with curd for dipping, small broccoli florets", "recipe_label": "Palak Paneer – Swasthi's Recipes", "recipe_url": "https://www.indianhealthyrecipes.com/palak-paneer-recipe-easy-paneer-recipes-step-by-step-pics/", "morning": "Pull dough from fridge 10 min to temper\nRoll & pan-toast methi-paneer paratha (2–3) — 8 min\nSteam broccoli 5 min, drizzle lemon + hemp", "eve": "", "macros": {"name": "Palak Paneer + brown rice + broccoli", "note": "150g paneer, 200g spinach, ¾ cup brown rice, 80g broccoli, hemp seeds", "kcal": 540, "protein": 28, "carbs": 54, "fat": 22, "fiber": 14, "iron": 7.2, "calcium": 490, "b12": 0.4, "zinc": 3.8, "vitc": 78, "folate": 180}}, {"day": "Tuesday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Tuesday", "meal": "5:30 PM 🌿 Evening", "adult": "SALAD: Romaine + roasted sweet potato + edamame + golden tofu + sesame seeds\nLemon–Sesame Ginger Dressing (lemon juice, sesame oil, ginger, soy, honey)\nProtein ~24g | Fiber ~10g\nSMOOTHIE: Roasted beet + banana + almond milk + chia seeds + vanilla | Protein ~12g", "kids": "KIDS DINNER (7 PM) (same as adult lunch):\nPalak Paneer + brown rice + broccoli with lemon & hemp seeds\nProtein ~26g\nToddler: soft paneer pieces + rice + broccoli florets", "recipe_label": "Our Recipe — Romaine Sweet Potato Tofu Salad", "recipe_url": "", "morning": "", "eve": "", "macros": {"name": "Romaine-Sweet Potato-Edamame-Tofu Salad + Beet-Banana Smoothie", "note": "200g tofu, 1 sweet potato, ¾ cup edamame, romaine, sesame + beet smoothie", "kcal": 480, "protein": 30, "carbs": 46, "fat": 20, "fiber": 12, "iron": 5.2, "calcium": 340, "b12": 0.0, "zinc": 3.4, "vitc": 52, "folate": 160}, "full_recipe": {"title": "Romaine, Roasted Sweet Potato, Edamame & Tofu Salad", "subtitle": "with Lemon–Sesame Ginger Dressing", "description": "A satisfying, protein-rich salad with warm roasted sweet potato, golden tofu, and crisp romaine. The zesty sesame-ginger dressing ties it all together.", "serves": "2–3", "ingredient_groups": [{"group": "Salad", "items": ["2–3 cups romaine lettuce, chopped", "1 medium sweet potato, peeled and cubed", "¾–1 cup shelled edamame, steamed", "200g firm tofu, cubed", "1 tbsp sesame seeds (toasted)", "1 tbsp olive oil (for roasting)", "½ tsp salt", "½ tsp paprika or cumin"]}, {"group": "Lemon–Sesame Ginger Dressing", "items": ["2 tbsp fresh lemon juice", "1 tbsp sesame oil", "1 tbsp olive oil", "1 tsp soy sauce or tamari", "1 tsp maple syrup or honey", "½ tsp grated ginger", "½ tsp Dijon mustard (optional)", "1–2 tbsp water (to thin)", "pinch black pepper"]}, {"group": "Optional Additions", "items": ["sliced avocado", "pickled onions", "chili flakes"]}], "steps": [{"num": 1, "title": "Roast the sweet potato", "text": "Preheat oven to 400°F / 200°C. Toss sweet potato cubes with olive oil, salt, and paprika. Roast 20–25 minutes until golden and tender.", "timer": 25}, {"num": 2, "title": "Cook the tofu", "text": "Pat tofu dry and cube. Heat a pan with 1 tsp oil. Cook tofu 6–8 minutes, turning until golden on all sides. Optional: add a splash of soy sauce for flavour.", "timer": 8}, {"num": 3, "title": "Prepare the vegetables", "text": "Chop romaine lettuce. Steam edamame for 3–4 minutes if frozen.", "timer": 4}, {"num": 4, "title": "Make the dressing", "text": "Shake all dressing ingredients together in a jar until smooth and emulsified."}, {"num": 5, "title": "Assemble", "text": "In a large bowl combine romaine, edamame, and cooked tofu. Add dressing and toss lightly. Gently fold in roasted sweet potato last to keep it intact."}, {"num": 6, "title": "Finish", "text": "Sprinkle with toasted sesame seeds. Add optional avocado, pickled onions, or chili flakes as desired."}], "texture_goal": "Crisp romaine base with warm, golden tofu and sweet potato chunks — contrasting textures with a bright, nutty dressing.", "serving_ideas": ["Serve immediately while sweet potato is still warm", "Works as a standalone dinner or alongside a light soup", "Pack tofu and sweet potato separately if meal-prepping"]}}, {"day": "Wednesday", "meal": "10 AM ☀ Breakfast", "adult": "Egg Bhurji\n3 eggs scrambled with onion, tomato, turmeric, cumin, coriander\nProtein ~22g | Fiber ~4g\nSeed boost: 1 tbsp hemp seeds\n🥜 5 soaked almonds + 1 walnut + 1 soaked fig (alongside breakfast)", "kids": "Same bhurji (mild). Toast or soft bread for kids.", "recipe_label": "Egg Bhurji – Swasthi's Recipes", "recipe_url": "https://www.indianhealthyrecipes.com/egg-bhurji/", "morning": "Fry bhurji fresh 8 min\nBoil quinoa 15 min\nSauté zucchini 4 min", "eve": "", "macros": {"name": "Egg Bhurji + quinoa + almonds/walnut/fig", "note": "3 eggs + onion/tomato/spices + hemp seeds + ½ cup quinoa + 5 almonds + 1 walnut + 1 fig", "kcal": 460, "protein": 28, "carbs": 38, "fat": 20, "fiber": 6, "iron": 4.2, "calcium": 120, "b12": 1.5, "zinc": 3.5, "vitc": 18, "folate": 95}}, {"day": "Wednesday", "meal": "11:00 AM 🥜 Kids Morning Snack", "adult": "", "kids": "🥜 5 almonds + 1 walnut (soaked, shared with adults)\n🍎 mango cubes", "kids_snack_editable": true, "snack_type": "morning", "recipe_label": "", "recipe_url": "", "morning": "", "eve": ""}, {"day": "Wednesday", "meal": "1:30 PM 🥗 Lunch", "adult": "Smoky Baingan–Chana Bharta (Dry, Dhaba-Style) + quinoa + zucchini sautéed (half)\nProtein ~22g | Fiber ~16g\nA smoky, protein-rich bharta made with roasted eggplant and chickpeas. Dry and scoopable with roti.", "kids": "Moong Dal Chilla (2–3)\n+ curd + broccoli with lemon + green chutney\nProtein ~14g\nToddler: small chilla pieces with curd, soft broccoli", "recipe_label": "Smoky Baingan–Chana Bharta (Our Recipe)", "recipe_url": "", "morning": "Pull dough from fridge 10 min to temper\nRoll & toast 4–6 rotis for adults — 10 min\nSauté zucchini 4 min\nFry moong chilla fresh 10 min", "eve": "", "full_recipe": {"title": "Smoky Baingan–Chana Bharta", "subtitle": "Dry, Dhaba-Style", "description": "A smoky, protein-rich bharta made with roasted eggplant and chickpeas. This version is dry and scoopable with roti rather than saucy. Optional yogurt or lemon can be added for tang.", "serves": "3–4", "ingredient_groups": [{"group": "Main", "items": ["1 large eggplant (baingan)", "1–1½ cups cooked chickpeas", "1 medium onion, finely chopped", "1 tomato, finely chopped"]}, {"group": "Aromatics", "items": ["1 tbsp ginger, finely chopped", "3 cloves garlic, finely chopped", "1 green chili, finely chopped (optional)"]}, {"group": "Spices", "items": ["1 tsp cumin seeds", "1 tsp coriander powder", "½ tsp turmeric", "½–1 tsp red chili powder", "½ tsp garam masala", "salt to taste"]}, {"group": "Finishing Flavors", "items": ["½ tsp kasuri methi (crushed)", "2 tbsp cilantro, chopped", "1 tsp mustard oil (optional but authentic)"]}, {"group": "Optional Tang (choose one)", "items": ["1–2 tbsp yogurt", "squeeze of lemon juice"]}, {"group": "Optional Green Add-ins", "items": ["chopped spinach", "chopped methi (fenugreek) leaves", "finely chopped green bell pepper", "small handful fresh moringa leaves", "moringa powder (½ tsp)", "green peas"]}], "steps": [{"num": 1, "title": "Roast the eggplant", "text": "Roast whole eggplant over flame, broiler, or oven (425°F / 220°C) until skin is charred and flesh is soft. Cool → peel → roughly mash."}, {"num": 2, "title": "Cook the base", "text": "Heat 1½ tbsp oil in a pan. Add cumin seeds — when they crackle, add onion + pinch of salt. Cook until lightly golden."}, {"num": 3, "title": "Add aromatics", "text": "Add garlic, ginger, and green chili. Cook about 1 minute until fragrant."}, {"num": 4, "title": "Add spices and tomato", "text": "Add coriander powder, turmeric, and chili powder. Then add the tomato. Cook until tomatoes break down, mixture becomes thick and slightly dry, and oil begins to separate."}, {"num": 5, "title": "Add eggplant and chickpeas", "text": "Add mashed roasted eggplant and chickpeas. Mash about 25% of the chickpeas with the spoon. Cook uncovered 8–10 minutes until dry and cohesive. If using green add-ins, stir them in during this step.", "timer": 10}, {"num": 6, "title": "Finish", "text": "Add garam masala, kasuri methi, mustard oil (optional), and cilantro. Cook 1 minute.", "timer": 1}, {"num": 7, "title": "Optional tang", "text": "Finish with 1–2 tbsp yogurt (creamier) OR a squeeze of lemon juice (brighter)."}], "texture_goal": "Smoky, chunky, dry enough to scoop with roti — similar to a bharta + chole mash.", "serving_ideas": ["Whole-wheat roti or paratha", "Wrap filling", "Savory toast topping", "Side with dal and salad"]}, "macros": {"name": "Smoky Baingan-Chana Bharta + quinoa + zucchini", "note": "1 large eggplant, 1½ cup chickpeas, ¾ cup quinoa, ½ zucchini", "kcal": 490, "protein": 22, "carbs": 68, "fat": 12, "fiber": 18, "iron": 5.8, "calcium": 110, "b12": 0.0, "zinc": 3.2, "vitc": 14, "folate": 220}}, {"day": "Wednesday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Wednesday", "meal": "5:30 PM 🌿 Evening", "adult": "SALAD: Romaine + roasted chickpeas + croutons + boiled eggs + avocado\nCreamy Feta Caesar-Style Dressing (feta, Greek yogurt, lemon, garlic, Dijon)\nProtein ~28g | Fiber ~12g\nSMOOTHIE: Mixed berries + banana + Greek yogurt + chia seeds + almond milk | Protein ~16g", "kids": "KIDS DINNER (7 PM) (same as adult lunch):\nSmoky Baingan–Chana Bharta + soft roti or rice + sautéed zucchini\nProtein ~20g\nToddler: mashed bharta on soft roti, zucchini pieces", "recipe_label": "Our Recipe — Feta Caesar Salad", "recipe_url": "", "morning": "Roll & toast 2–3 soft rotis for kids dinner — 8 min (use Batch 1 dough)", "eve": "", "macros": {"name": "Feta Caesar Salad (romaine, chickpeas, eggs, avocado) + Berry Smoothie", "note": "Romaine, ¾ cup chickpeas, 3 eggs, 1 avocado, feta dressing + berry-yogurt smoothie", "kcal": 540, "protein": 32, "carbs": 42, "fat": 28, "fiber": 14, "iron": 4.8, "calcium": 360, "b12": 1.8, "zinc": 3.2, "vitc": 48, "folate": 200}, "full_recipe": {"title": "Creamy Feta Caesar-Style Salad", "subtitle": "with Feta Caesar Dressing, Roasted Chickpeas & Eggs", "description": "A lighter Caesar-style salad built on romaine and roasted chickpeas, dressed with a creamy feta dressing that's tangy, garlicky, and rich — no anchovies needed. Topped with boiled eggs and avocado for a complete dinner.", "serves": "2", "ingredient_groups": [{"group": "Salad", "items": ["4 cups romaine lettuce, chopped", "¾ cup roasted chickpeas", "¾ cup croutons", "3 hard-boiled eggs, halved", "1 avocado, sliced", "extra Parmesan (optional)"]}, {"group": "Creamy Feta Caesar Dressing", "items": ["⅓ cup crumbled feta (from the brine)", "2 tbsp Greek yogurt", "2 tbsp olive oil", "1½ tbsp lemon juice", "1 tsp Dijon mustard", "1 small garlic clove, grated", "1 tsp feta brine", "fresh black pepper", "1–2 tbsp water (to thin)"]}, {"group": "Optional", "items": ["½ tsp lemon zest (if feta is very salty — balances beautifully)", "½ tsp honey (alternative balance)"]}], "steps": [{"num": 1, "title": "Make the dressing", "text": "Add feta, yogurt, lemon juice, Dijon, garlic, and olive oil to a bowl or blender. Blend or whisk until smooth and creamy. Add 1 tsp feta brine and black pepper. Thin with 1–2 tbsp water until pourable. Taste before adding salt — the feta usually provides enough."}, {"num": 2, "title": "Roast the chickpeas", "text": "Preheat oven to 400°F / 200°C. Toss chickpeas with 1 tsp olive oil, pinch salt, ½ tsp paprika or cumin. Roast 15–20 minutes until crisp.", "timer": 20}, {"num": 3, "title": "Boil the eggs", "text": "Boil eggs for 9–10 minutes for fully set yolks. Cool in ice water, peel, and halve.", "timer": 10}, {"num": 4, "title": "Assemble", "text": "Toss romaine and chickpeas with dressing. Add croutons and toss again lightly. Top with halved eggs and sliced avocado. Add optional Parmesan and a squeeze of lemon."}], "texture_goal": "Creamy and tangy dressing coating crisp romaine, with crunchy chickpeas and croutons, softened by rich avocado and egg.", "serving_ideas": ["Serve immediately after dressing for maximum crunch", "Make dressing up to 3 days ahead and refrigerate", "Roasted chickpeas can be done during lunch prep"]}}, {"day": "Thursday", "meal": "10 AM ☀ Breakfast", "adult": "Zucchini-Spinach Frittata (baked prev evening)\nEgg + zucchini (remaining half) + spinach + feta — slice & warm\nProtein ~24g | Fiber ~5g\n🥜 5 soaked almonds + 1 walnut + 1 soaked fig (alongside breakfast)", "kids": "Same frittata, soft wedges. Toddler: small pieces at room temp.", "recipe_label": "Frittata Recipe – Serious Eats", "recipe_url": "https://www.seriouseats.com/the-best-frittata-method", "morning": "Boil quinoa 15 min", "eve": "", "macros": {"name": "Zucchini-Spinach Frittata + quinoa + almonds/walnut/fig", "note": "4 eggs, ½ zucchini, 100g spinach, feta + ¾ cup quinoa + 5 almonds + 1 walnut + 1 fig", "kcal": 480, "protein": 30, "carbs": 36, "fat": 24, "fiber": 7, "iron": 5.0, "calcium": 280, "b12": 1.8, "zinc": 3.6, "vitc": 28, "folate": 160}}, {"day": "Thursday", "meal": "11:00 AM 🥜 Kids Morning Snack", "adult": "", "kids": "🥜 5 almonds + 1 walnut (soaked, shared with adults)\n🍎 sliced apple + a handful of grapes", "kids_snack_editable": true, "snack_type": "morning", "recipe_label": "", "recipe_url": "", "morning": "", "eve": ""}, {"day": "Thursday", "meal": "1:30 PM 🥗 Lunch", "adult": "Stuffed Capsicum Curry: 2 capsicums (yellow + red) stuffed with spiced lentil-paneer filling, cooked in tomato masala + quinoa\nProtein ~26g | Fiber ~14g", "kids": "Sweet Potato Paratha (1–2)\n+ curd + broccoli with lemon\nProtein ~12g\nToddler: small soft pieces with curd, broccoli florets", "recipe_label": "Stuffed Bell Peppers Curry – Cookilicious", "recipe_url": "https://cookilicious.com/chilly-paneer-tomato-capsicum-gravy/", "morning": "Boil/mash sweet potato for paratha filling\nPull dough from fridge 10 min to temper\nRoll & pan-toast sweet potato paratha (2–3) — 8 min", "eve": "", "macros": {"name": "Stuffed Capsicum Curry + quinoa", "note": "2 capsicums, lentil-paneer filling 150g, tomato masala, ¾ cup quinoa", "kcal": 520, "protein": 26, "carbs": 60, "fat": 16, "fiber": 14, "iron": 5.2, "calcium": 320, "b12": 0.3, "zinc": 3.0, "vitc": 110, "folate": 195}}, {"day": "Thursday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Thursday", "meal": "5:30 PM 🌿 Evening", "adult": "SALAD: Romaine + avocado + roasted chickpeas + cucumber + cherry tomatoes + feta + seeds\nLemon-Herb Dressing (olive oil, lemon, Dijon, parsley/dill)\nProtein ~20g | Fiber ~14g\nSMOOTHIE: Mango + banana + Greek yogurt + hemp seeds + almond milk | Protein ~18g", "kids": "KIDS DINNER (7 PM) (same as adult lunch):\nStuffed Capsicum Curry filling + quinoa\nProtein ~22g\nToddler: lentil-paneer filling mashed with rice, mild", "recipe_label": "Our Recipe — Romaine Avocado Chickpea Salad", "recipe_url": "", "morning": "", "eve": "", "macros": {"name": "Romaine-Avocado-Chickpea Salad with Lemon-Herb Dressing + Mango Smoothie", "note": "4 cups romaine, 1 avocado, ¾ cup chickpeas, cucumber, tomatoes, feta + mango smoothie", "kcal": 520, "protein": 22, "carbs": 48, "fat": 28, "fiber": 16, "iron": 4.2, "calcium": 260, "b12": 0.6, "zinc": 2.6, "vitc": 60, "folate": 180}, "full_recipe": {"title": "Romaine, Avocado & Roasted Chickpea Salad", "subtitle": "with Lemon-Herb Dressing", "description": "A bright, fresh salad with crunchy roasted chickpeas, creamy avocado, and a simple herb-forward lemon dressing. Light but filling.", "serves": "2", "ingredient_groups": [{"group": "Salad", "items": ["4 cups romaine lettuce, chopped", "1 large avocado, diced or sliced", "¾ cup roasted chickpeas", "½ cup cucumber, diced", "¼ cup cherry tomatoes, halved", "3 tbsp feta cheese, crumbled (optional)", "2 tbsp toasted sunflower seeds or pumpkin seeds"]}, {"group": "Lemon-Herb Dressing", "items": ["2 tbsp olive oil", "1½ tbsp lemon juice", "1 tsp Dijon mustard", "½ tsp honey or maple syrup", "1 tbsp chopped parsley or dill", "½ small garlic clove, grated", "salt & black pepper"]}], "steps": [{"num": 1, "title": "Roast the chickpeas", "text": "Preheat oven to 400°F / 200°C. Toss ¾ cup cooked chickpeas with 1 tsp olive oil, pinch salt, and ½ tsp paprika or cumin. Roast 15–20 minutes until crisp. Protein contribution: ~10–12g.", "timer": 20}, {"num": 2, "title": "Make the dressing", "text": "Whisk together olive oil, lemon juice, Dijon, honey, parsley or dill, garlic, salt and pepper until emulsified."}, {"num": 3, "title": "Assemble", "text": "Add romaine, cucumber, tomatoes, and chickpeas to a large bowl. Toss with lemon-herb dressing. Gently fold in avocado last to keep it intact. Sprinkle feta and seeds on top."}], "texture_goal": "Crisp romaine and crunchy chickpeas against creamy avocado, finished with a bright, herby lemon dressing.", "serving_ideas": ["Dress just before serving to keep romaine crisp", "Roasted chickpeas can be made ahead and stored at room temp", "Add a poached egg on top for extra protein"]}}, {"day": "Friday", "meal": "10 AM ☀ Breakfast", "adult": "Mushroom & Egg Scramble\n3 eggs + sliced white mushrooms (half pack) + spinach + garlic + cheddar\nProtein ~26g | Fiber ~5g\nSeed boost: 1 tbsp hemp seeds\n🥜 5 soaked almonds + 1 walnut + 1 soaked fig (alongside breakfast)", "kids": "Same scramble (well-cooked mushrooms). Toddler: egg + soft mushroom pieces on toast.", "recipe_label": "Mushroom Egg Scramble – Downshiftology", "recipe_url": "https://downshiftology.com/recipes/scrambled-eggs/", "morning": "Sauté mushrooms 5 min; add eggs & scramble 6 min\nMake raita", "eve": "", "macros": {"name": "Mushroom & Egg Scramble + almonds/walnut/fig", "note": "3 eggs, 100g mushrooms, spinach, cheddar, hemp seeds + 5 almonds + 1 walnut + 1 fig", "kcal": 450, "protein": 30, "carbs": 14, "fat": 30, "fiber": 5, "iron": 3.8, "calcium": 230, "b12": 2.0, "zinc": 3.8, "vitc": 10, "folate": 75}}, {"day": "Friday", "meal": "11:00 AM 🥜 Kids Morning Snack", "adult": "", "kids": "🥜 5 almonds + 1 walnut (soaked, shared with adults)\n🍎 banana + orange segments", "kids_snack_editable": true, "snack_type": "morning", "recipe_label": "", "recipe_url": "", "morning": "", "eve": ""}, {"day": "Friday", "meal": "1:30 PM 🥗 Lunch", "adult": "Mushroom-Tofu Keema (remaining mushrooms + tofu + peas) + multigrain roti + cucumber slices\nProtein ~28g | Fiber ~12g", "kids": "Mushroom-Tofu Paratha (1–2)\n+ curd + broccoli with lemon + cucumber slices\nProtein ~16g\nToddler: small soft pieces, mild, with curd", "recipe_label": "Mushroom Keema – Sanjeev Kapoor", "recipe_url": "https://www.sanjeevkapoor.com/Recipe/mushroom-keema-6854918", "morning": "Pull dough from fridge 10 min to temper\nRoll & toast 4–6 rotis for adults — 10 min\nRoll & toast mushroom-tofu paratha (2–3) for kids — 8 min\nSlice cucumber", "eve": "", "macros": {"name": "Mushroom-Tofu Keema + roti + cucumber", "note": "100g mushrooms, 150g firm tofu, green peas, 2 rotis, cucumber", "kcal": 460, "protein": 28, "carbs": 46, "fat": 14, "fiber": 12, "iron": 5.4, "calcium": 280, "b12": 0.0, "zinc": 2.8, "vitc": 18, "folate": 110}}, {"day": "Friday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Friday", "meal": "5:30 PM 🌿 COMFORT EVENING ✨", "adult": "🍳 COMFORT UPGRADE:\nEgg Curry (Anda Masala): 2 boiled eggs/adult simmered in rich onion-tomato-coconut gravy + buttered multigrain toast soldiers + warm dal soup on the side\n\n🥗 CRUNCH BOWL SIDE: Broccoli + apple + cranberries + walnuts + edamame on quinoa\nCreamy honey-yogurt dressing | Protein ~32g | Fiber ~14g total", "kids": "KIDS COMFORT EVENING:\nBoiled egg in mild tomato-coconut gravy + soft toast strips + warm dal\nProtein ~14g\nToddler: dip toast in gravy\n\nKIDS DINNER (same as adult lunch):\nMushroom-Tofu Keema + soft roti — serve alongside or after\nProtein ~10g", "recipe_label": "Our Recipe — Broccoli Crunch Dinner Bowl", "recipe_url": "", "morning": "Boil 6 eggs (10 min)\nMake anda masala gravy\nToast bread\nRoll 2 soft rotis for kids — 5 min (use Batch 2 dough)", "eve": "", "macros": {"name": "Egg Curry + Broccoli Crunch Bowl (quinoa, edamame, eggs) + arugula side", "note": "2 boiled eggs in curry, toast, dal + broccoli/apple/walnut/edamame bowl on quinoa", "kcal": 620, "protein": 36, "carbs": 56, "fat": 24, "fiber": 16, "iron": 6.2, "calcium": 280, "b12": 2.4, "zinc": 4.0, "vitc": 80, "folate": 200}, "full_recipe": {"title": "Broccoli Crunch Dinner Bowl", "subtitle": "with Quinoa, Edamame & Eggs", "description": "A substantial crunch bowl built on a creamy yogurt-honey dressing. Raw broccoli, apple, walnuts, and cranberries sit on a quinoa base, topped with edamame and boiled eggs for serious protein.", "serves": "2", "ingredient_groups": [{"group": "Quinoa Base", "items": ["1 cup quinoa, uncooked", "2 cups water", "½ tsp salt"]}, {"group": "Broccoli Salad", "items": ["3 cups broccoli florets, finely chopped", "1 apple, diced", "¼ cup dried cranberries", "¼ cup red onion, finely chopped", "¼ cup parsley, chopped", "⅓ cup walnuts, toasted"]}, {"group": "Protein", "items": ["1 cup shelled edamame, cooked", "3 eggs, boiled and halved"]}, {"group": "Creamy Honey-Yogurt Dressing", "items": ["3 tbsp Greek yogurt", "1 tbsp mayonnaise", "1 tbsp honey or maple syrup", "1½ tbsp apple cider vinegar", "1 tsp Dijon mustard (optional)", "salt & black pepper to taste"]}, {"group": "Optional Toppings", "items": ["sliced avocado", "feta cheese", "pumpkin seeds or extra walnuts", "squeeze of lemon"]}], "steps": [{"num": 1, "title": "Cook the quinoa", "text": "Rinse quinoa well. Bring quinoa, water, and salt to a boil. Cover and simmer 12–15 minutes. Turn off heat and rest 5 minutes, then fluff with a fork.", "timer": 15}, {"num": 2, "title": "Prepare the broccoli salad", "text": "In a large bowl combine chopped broccoli, diced apple, red onion, cranberries, parsley, and toasted walnuts."}, {"num": 3, "title": "Make the dressing", "text": "Whisk together Greek yogurt, mayonnaise, honey, apple cider vinegar, Dijon mustard (if using), salt and pepper until smooth. Toss with the broccoli mixture and let sit for 5+ minutes — the broccoli softens slightly and the flavours meld.", "timer": 5}, {"num": 4, "title": "Assemble the bowls", "text": "Divide quinoa between bowls. Top with broccoli salad, edamame, and halved boiled eggs. Add optional toppings as desired."}], "texture_goal": "Crunchy raw broccoli and walnuts coated in a creamy tangy dressing, on fluffy quinoa — topped with soft egg and bright edamame.", "serving_ideas": ["Make-ahead: cook quinoa and eggs the night before", "Toss broccoli with dressing and refrigerate — flavours improve overnight", "Assemble bowls just before eating"]}}, {"day": "Saturday", "meal": "10 AM ☀ Breakfast", "adult": "Avocado Toast + Poached Eggs\n2 poached eggs/adult on multigrain toast + mashed avocado (1) + chia seeds + lemon + chilli flakes\nProtein ~24g | Fiber ~10g\n🥜 5 soaked almonds + 1 walnut + 1 soaked fig (alongside breakfast)", "kids": "Same — mashed avo + well-set egg on soft toast strips. Toddler loves it!", "recipe_label": "Avocado Toast + Eggs – Love & Lemons", "recipe_url": "https://www.loveandlemons.com/avocado-toast/", "morning": "Poach 2 eggs/adult 8 min\nMash avocado 2 min\nBoil quinoa 15 min", "eve": "", "macros": {"name": "Avocado Toast + Poached Eggs + almonds/walnut/fig", "note": "2 eggs, 1 avocado, 2 multigrain toast slices, chia seeds + 5 almonds + 1 walnut + 1 fig", "kcal": 500, "protein": 24, "carbs": 36, "fat": 32, "fiber": 12, "iron": 3.4, "calcium": 160, "b12": 1.4, "zinc": 2.8, "vitc": 18, "folate": 155}}, {"day": "Saturday", "meal": "11:00 AM 🥜 Kids Morning Snack", "adult": "", "kids": "🥜 5 almonds + 1 walnut (soaked, shared with adults)\n🍎 mixed berries (blueberry, strawberry)", "kids_snack_editable": true, "snack_type": "morning", "recipe_label": "", "recipe_url": "", "morning": "", "eve": ""}, {"day": "Saturday", "meal": "1:30 PM 🥗 Lunch", "adult": "Sweet Potato & Black Bean Tikka Masala + quinoa\nProtein ~24g | Fiber ~16g", "kids": "Sweet Potato-Cheese Paratha (1–2)\n+ curd + broccoli with lemon\nProtein ~14g\nToddler: small pieces with curd or guacamole", "recipe_label": "Sweet Potato Tikka Masala – Happy Veggie Kitchen", "recipe_url": "https://www.happyveggiekitchen.com/sweet-potato-tikka-masala/", "morning": "Pull dough from fridge 10 min to temper\nRoll & pan-toast sweet potato-cheese paratha (2–3) — 8 min", "eve": "", "macros": {"name": "Sweet Potato & Black Bean Tikka Masala + quinoa", "note": "2 sweet potatoes, 1 cup black beans, tomato-cream sauce, ¾ cup quinoa", "kcal": 530, "protein": 24, "carbs": 78, "fat": 14, "fiber": 18, "iron": 5.8, "calcium": 130, "b12": 0.0, "zinc": 2.8, "vitc": 28, "folate": 210}}, {"day": "Saturday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Saturday", "meal": "5:30 PM 🌿 Evening", "adult": "SALAD: Thai Peanut Cucumber & Bell Pepper Bowl — mini cucumbers + mini sweet peppers + carrots + edamame + boiled eggs on quinoa\nThai Peanut Dressing (peanut butter, lime, soy, ginger, sesame oil)\nProtein ~28g | Fiber ~12g\nSMOOTHIE: Avocado + mango + almond milk + hemp seeds + honey | Protein ~14g", "kids": "KIDS DINNER (7 PM) (same as adult lunch):\nSweet Potato & Black Bean Tikka Masala + quinoa\nProtein ~20g\nToddler: sweet potato + black beans mashed, mild spice", "recipe_label": "Our Recipe — Thai Peanut Dinner Bowl", "recipe_url": "", "morning": "", "eve": "", "macros": {"name": "Thai Peanut Bowl (cucumbers, peppers, edamame, eggs, quinoa) + Avocado-Mango Smoothie", "note": "Mini cucumbers, peppers, ¾ cup edamame, 3 eggs, quinoa, peanut dressing + smoothie", "kcal": 580, "protein": 32, "carbs": 58, "fat": 24, "fiber": 14, "iron": 4.6, "calcium": 220, "b12": 1.4, "zinc": 3.4, "vitc": 72, "folate": 170}, "full_recipe": {"title": "Thai Peanut Cucumber & Bell Pepper Dinner Bowl", "subtitle": "with Quinoa, Edamame & Eggs", "description": "A vibrant Thai-inspired dinner bowl with crunchy cucumbers, sweet mini peppers, creamy peanut dressing, and a quinoa base. Fresh, punchy, and deeply satisfying.", "serves": "2–2½", "ingredient_groups": [{"group": "Quinoa Base", "items": ["1 cup quinoa, uncooked", "2 cups water", "pinch salt"]}, {"group": "Crunchy Salad Base", "items": ["3–4 mini cucumbers, sliced", "8–10 mini sweet peppers, sliced", "¼ red onion, thinly sliced", "½ cup shredded carrots", "2 tbsp cilantro, chopped"]}, {"group": "Protein", "items": ["1 cup shelled edamame", "3 boiled eggs, halved", "200g crispy tofu cubes (optional upgrade)"]}, {"group": "Healthy Crunch", "items": ["¼ cup roasted peanuts or cashews", "1 tbsp toasted sesame seeds", "½ avocado, sliced"]}, {"group": "Thai Peanut Dressing", "items": ["3 tbsp natural peanut butter", "1½ tbsp lime juice", "1 tbsp soy sauce or tamari", "1 tsp sesame oil", "1 tsp honey or maple syrup", "1 tsp fresh grated ginger", "1 small garlic clove, grated", "2–4 tbsp warm water (to thin)"]}, {"group": "Optional Flavor Boost", "items": ["½ tsp chili crisp or chili paste", "everything-bagel seasoning", "extra lime squeeze"]}], "steps": [{"num": 1, "title": "Cook the quinoa", "text": "Rinse quinoa. Bring with water and salt to a boil, cover and simmer ~15 minutes. Rest 5 minutes off heat, then fluff.", "timer": 15}, {"num": 2, "title": "Make the peanut dressing", "text": "Whisk together peanut butter, lime juice, soy sauce, sesame oil, honey, ginger, and garlic. Add warm water 1 tbsp at a time until creamy and pourable. Add chili crisp if using."}, {"num": 3, "title": "Prep the vegetables", "text": "Slice cucumbers, peppers, and red onion. Shred carrots. Toss all vegetables and cilantro with a little dressing."}, {"num": 4, "title": "Assemble the bowls", "text": "Divide quinoa between bowls. Add the dressed salad mixture. Top with edamame, boiled eggs, peanuts, sesame seeds, and avocado. Drizzle remaining dressing over everything."}, {"num": 5, "title": "Optional finish", "text": "Sprinkle with everything-bagel seasoning, chili crisp, and an extra squeeze of lime for crunch and a spicy finish."}], "texture_goal": "Crisp cucumber and pepper crunch against creamy peanut dressing — fresh, punchy, and satisfying on a fluffy quinoa base.", "serving_ideas": ["Make-ahead: cook quinoa, boil eggs, mix dressing, chop vegetables — all the night before", "Keep salad undressed until serving so cucumbers stay crisp", "Crispy tofu adds another protein tier and great texture"]}}, {"day": "Sunday", "meal": "10 AM ☀ EAT OUT 🍽", "adult": "🍳 EAT OUT — Egg-Based Brunch\n• Eggs Benedict / Florentine\n• Shakshuka (restaurant-style)\n• Spanish Tortilla\n• Masala omelette with toast\n• Huevos Rancheros\n\nEnjoy your morning out! ☕", "kids": "Kids can share any egg dish — most restaurants do a simple omelette or scrambled eggs.", "recipe_label": "Eggs Benedict Guide – Serious Eats", "recipe_url": "https://www.seriouseats.com/eggs-benedict-recipe", "morning": "Nothing to prep — eat out!\nBoil yucca roots tonight when you return.", "eve": "", "macros": {"name": "Eat Out — Eggs Benedict / Shakshuka (estimated)", "note": "Restaurant estimate — values will vary", "kcal": 480, "protein": 22, "carbs": 34, "fat": 28, "fiber": 3, "iron": 2.8, "calcium": 180, "b12": 1.4, "zinc": 2.2, "vitc": 12, "folate": 80}}, {"day": "Sunday", "meal": "1:30 PM 🥗 Lunch", "adult": "Yucca Root & Chickpea Coconut Stew: boiled yucca + chickpeas + coconut milk + spinach + curry leaves + turmeric\nProtein ~22g | Fiber ~18g", "kids": "Yucca Paratha (1–2)\n+ curd + broccoli with lemon + pickle\nProtein ~12g\nToddler: small soft pieces with curd", "recipe_label": "Chickpea Coconut Stew – Alison Roman", "recipe_url": "https://www.alisoneroman.com/recipes/spiced-chickpea-stew-with-coconut-and-turmeric/", "morning": "Pull dough from fridge 10 min to temper\nRoll & pan-toast yucca paratha (2–3) for kids — 8 min", "eve": "", "macros": {"name": "Yucca Root & Chickpea Coconut Stew", "note": "200g yucca, 1 cup chickpeas, coconut milk, spinach, curry leaves, turmeric", "kcal": 490, "protein": 16, "carbs": 72, "fat": 16, "fiber": 14, "iron": 4.6, "calcium": 140, "b12": 0.0, "zinc": 2.4, "vitc": 24, "folate": 160}}, {"day": "Sunday", "meal": "5:00 PM 🍎 Kids Snack", "adult": "", "kids": "🪷 Makhana (lotus seeds) — 1 small bowl", "kids_snack_editable": true, "recipe_label": "", "recipe_url": "", "morning": "", "eve": "", "snack_type": "evening"}, {"day": "Sunday", "meal": "5:30 PM 🌿 Evening", "adult": "SALAD: Lettuce + avocado + arugula + toasted sesame + lemon-olive oil | Fiber ~8g\nSMOOTHIE: Avocado + strawberry + almond milk + chia seeds + honey | Protein ~12g", "kids": "KIDS DINNER (7 PM) (same as adult lunch):\nYucca Root & Chickpea Coconut Stew + soft rice or roti\nProtein ~18g\nToddler: soft yucca + chickpeas mashed in coconut broth", "recipe_label": "—", "recipe_url": "", "morning": "Roll 1–2 soft rotis for kids if needed — 5 min (use Batch 2 dough)", "eve": "", "macros": {"name": "Lettuce-avocado salad + strawberry-avocado smoothie", "note": "Lettuce, avocado, arugula, sesame + avocado, strawberry, almond milk, chia", "kcal": 360, "protein": 8, "carbs": 34, "fat": 24, "fiber": 12, "iron": 2.6, "calcium": 200, "b12": 0.0, "zinc": 1.4, "vitc": 48, "folate": 120}}];
+
+const DAYS = [...new Set(MEAL_DATA.map(m => m.day))];
+let activeDay = DAYS[0];
+let doneSteps = {};
+let openCards = {};
+let activeCardTab = {};
+let snackEdits = {}; // persists editable snack field changes in-session
+
+function stepId(day, mealIdx, type, stepIdx) {
+  return `${day}_${mealIdx}_${type}_${stepIdx}`;
+}
+
+function parseSteps(text) {
+  if (!text || !text.trim()) return [];
+  return text.split('\n').map(s => s.trim()).filter(s => s.length > 2);
+}
+
+function extractTime(step) {
+  const m = step.match(/(\d+)\s*min/i);
+  return m ? parseInt(m[1]) : null;
+}
+
+function getMealSlotType(meal) {
+  const m = meal.toLowerCase();
+  if (m.includes('comfort')) return 'comfort';
+  if (m.includes('eat out')) return 'eat-out';
+  if (m.includes('kids snack') || m.includes('morning snack')) return 'snack';
+  return 'normal';
+}
+
+function getMealTimeLabel(meal) {
+  if (meal.includes('10 AM')) return '10 AM';
+  if (meal.includes('11:00')) return '11:00 AM';
+  if (meal.includes('1:30')) return '1:30 PM';
+  if (meal.includes('5:00')) return '5:00 PM';
+  if (meal.includes('5:30')) return '5:30 PM';
+  return meal.split(' ').slice(0,2).join(' ');
+}
+
+function getMealDisplayName(meal) {
+  if (meal.includes('Breakfast')) return 'Breakfast';
+  if (meal.includes('Morning Snack')) return 'Morning Snack';
+  if (meal.includes('Lunch')) return 'Lunch';
+  if (meal.includes('Kids Snack')) return 'Evening Snack';
+  if (meal.includes('COMFORT')) return '✨ Comfort Evening';
+  if (meal.includes('EAT OUT')) return '🍽 Eat Out';
+  if (meal.includes('Evening')) return 'Evening';
+  return meal;
+}
+
+function countStepsForDay(day) {
+  const dayMeals = MEAL_DATA.filter(m => m.day === day);
+  let total = 0, done = 0;
+  // Count morning steps per meal
+  dayMeals.forEach((meal, idx) => {
+    parseSteps(meal.morning).forEach((_, sIdx) => {
+      const id = stepId(day, idx, 'morning', sIdx);
+      total++;
+      if (doneSteps[id]) done++;
+    });
+  });
+  // Count evening prep steps (collated)
+  const evePrepData = EVE_PREP[day];
+  if (evePrepData) {
+    evePrepData.sections.forEach((sec, secIdx) => {
+      sec.items.forEach((_, itemIdx) => {
+        const id = `eve_${day}_${secIdx}_${itemIdx}`;
+        total++;
+        if (doneSteps[id]) done++;
+      });
+    });
+  }
+  return { total, done };
+}
+
+function render() {
+  if (activeView !== 'mealplan') return;
+  renderDayTabs();
+  renderMain();
+}
+
+function renderDayTabs() {
+  const container = document.getElementById('dayTabs');
+  container.innerHTML = DAYS.map(day => {
+    const { total, done } = countStepsForDay(day);
+    const pct = total > 0 ? Math.round(done/total*100) : 0;
+    const badge = total > 0 ? ` (${pct}%)` : '';
+    return `<button class="day-tab ${day === activeDay ? 'active' : ''}" 
+              onclick="selectDay('${day}')">${day}${badge}</button>`;
+  }).join('');
+}
+
+function renderMain() {
+  const main = document.getElementById('main');
+  const dayMeals = MEAL_DATA.filter(m => m.day === activeDay);
+  const { total, done } = countStepsForDay(activeDay);
+  const pct = total > 0 ? Math.round(done/total*100) : 0;
+  const evePrepData = EVE_PREP[activeDay];
+
+  let html = '';
+
+  // Summary bar
+  const morningCount = dayMeals.reduce((acc, m) => acc + parseSteps(m.morning).length, 0);
+  const eveCount = evePrepData ? evePrepData.sections.reduce((acc,s) => acc + s.items.length, 0) : 0;
+
+  html += `
+    <div class="prep-summary">
+      <div class="prep-label">📋 ${activeDay}'s Plan</div>
+      <div class="prep-divider"></div>
+      <div class="prep-stat"><div class="prep-stat-num">${morningCount}</div><div class="prep-stat-lbl">Morning Steps</div></div>
+      <div class="prep-divider"></div>
+      <div class="prep-stat"><div class="prep-stat-num">${eveCount}</div><div class="prep-stat-lbl">Tonight's Prep</div></div>
+      <div class="prep-divider"></div>
+      <div class="prep-stat"><div class="prep-stat-num">${done}/${total}</div><div class="prep-stat-lbl">Done</div></div>
+      <div style="flex:1"></div>
+      <button class="clear-btn" onclick="clearDaySteps()">Reset Day</button>
+    </div>`;
+
+  // Day title
+  html += `
+    <div class="day-title-bar">
+      <div class="day-title">${activeDay}</div>
+      <div class="day-subtitle">${dayMeals.length} meals • ${morningCount + eveCount} prep steps</div>
+      <div class="progress-ring">
+        <span>${pct}% complete</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+
+  // ── SECTION LABEL: TODAY'S MEALS ──
+  html += `<div class="section-heading"><span class="section-icon">🍽</span> Today's Meals
+    <button class="expand-all-btn" onclick="expandAll()" style="margin-left:auto;margin-bottom:0;">Expand All</button>
+  </div>`;
+
+  // Meal cards (morning prep only)
+  html += '<div class="meals-grid">';
+  dayMeals.forEach((meal, idx) => {
+    const type = getMealSlotType(meal.meal);
+    const isOpen = openCards[`${activeDay}_${idx}`];
+    const activeTab = activeCardTab[`${activeDay}_${idx}`] || 'prep';
+    const morningStepsList = parseSteps(meal.morning);
+
+    // ── SNACK CARD: special compact editable layout ──
+    if (type === 'snack') {
+      const snackKey = `snack_${activeDay}_${idx}`;
+      const isMorning = meal.snack_type === 'morning' || meal.meal.includes('Morning');
+      const isEvening = !isMorning;
+
+      if (isMorning) {
+        // Morning snack: nuts + fruit, two rows
+        const savedNuts = snackEdits[snackKey + '_nuts'] || meal.kids.split('\n')[0].replace('🥜 ','');
+        const savedFruit = snackEdits[snackKey + '_fruit'] || meal.kids.split('\n')[1]?.replace('🍎 ','') || '';
+        html += `<div class="meal-card snack-card snack-morning" id="card_${activeDay}_${idx}">
+          <div class="snack-header">
+            <div>
+              <div class="meal-time" style="color:#7B5EA7;">11:00 AM</div>
+              <div class="meal-name">🥜 Kids Morning Snack</div>
+            </div>
+            <span class="snack-edit-badge morning-badge">editable</span>
+          </div>
+          <div class="snack-body">
+            <div class="snack-row">
+              <span class="snack-icon">🥜</span>
+              <input class="snack-input morning-input" type="text" value="${escapeAttr(savedNuts)}"
+                onchange="saveSnack('${snackKey}_nuts', this.value)"
+                placeholder="nuts (e.g. 5 almonds + 1 walnut)" />
+            </div>
+            <div class="snack-row">
+              <span class="snack-icon">🍎</span>
+              <input class="snack-input morning-input" type="text" value="${escapeAttr(savedFruit)}"
+                onchange="saveSnack('${snackKey}_fruit', this.value)"
+                placeholder="fruit (e.g. banana slices)" />
+            </div>
+          </div>
+        </div>`;
+      } else {
+        // Evening snack: single editable row
+        const raw = meal.kids || '';
+        const defaultVal = raw.replace('🪷 ','').replace('🥜 ','').replace('🍎 ','');
+        const savedVal = snackEdits[snackKey + '_main'] || defaultVal;
+        html += `<div class="meal-card snack-card snack-evening" id="card_${activeDay}_${idx}">
+          <div class="snack-header">
+            <div>
+              <div class="meal-time" style="color:#2D6A4F;">5:00 PM</div>
+              <div class="meal-name">🪷 Kids Evening Snack</div>
+            </div>
+            <span class="snack-edit-badge">editable</span>
+          </div>
+          <div class="snack-body">
+            <div class="snack-row">
+              <span class="snack-icon">🪷</span>
+              <input class="snack-input" type="text" value="${escapeAttr(savedVal)}"
+                onchange="saveSnack('${snackKey}_main', this.value)"
+                placeholder="e.g. Makhana — 1 small bowl" />
+            </div>
+            <div class="snack-note">Kids dinner at 7 PM</div>
+          </div>
+        </div>`;
+      }
+      return;
+    }
+
+    html += `<div class="meal-card ${type} ${isOpen ? 'open' : ''}" id="card_${activeDay}_${idx}">`;
+
+    // Card header
+    html += `
+      <div class="card-header" onclick="toggleCard('${activeDay}', ${idx})">
+        <div>
+          ${type === 'comfort' ? '<span class="badge badge-comfort">🌟 Comfort Night</span><br>' : ''}
+          ${type === 'eat-out' ? '<span class="badge badge-eatout">🍽 Eat Out</span><br>' : ''}
+          <div class="meal-time">${getMealTimeLabel(meal.meal)}</div>
+          <div class="meal-name">${getMealDisplayName(meal.meal)}</div>
+        </div>
+        <div class="card-chevron">▾</div>
+      </div>`;
+
+    if (isOpen) {
+      html += `<div class="card-body">`;
+      html += `<div class="card-tabs">
+        <button class="card-tab ${activeTab === 'dish' ? 'active' : ''}" onclick="switchTab('${activeDay}', ${idx}, 'dish')">🍽 Dish</button>
+        <button class="card-tab ${activeTab === 'prep' ? 'active' : ''}" onclick="switchTab('${activeDay}', ${idx}, 'prep')">🌅 Morning Prep</button>
+        <button class="card-tab ${activeTab === 'kids' ? 'active' : ''}" onclick="switchTab('${activeDay}', ${idx}, 'kids')">👶 Kids</button>
+        ${meal.macros ? `<button class="card-tab nutrition-tab ${activeTab === 'nutrition' ? 'active' : ''}" onclick="switchTab('${activeDay}', ${idx}, 'nutrition')">📊 Nutrition</button>` : ''}
+        ${meal.full_recipe ? `<button class="card-tab ${activeTab === 'fullrecipe' ? 'active' : ''}" onclick="switchTab('${activeDay}', ${idx}, 'fullrecipe')">📜 Full Recipe</button>` : ''}
+      </div>`;
+
+      // Dish tab
+      html += `<div class="tab-panel ${activeTab === 'dish' ? 'active' : ''}">`;
+      html += `<div class="dish-desc">${escapeHtml(meal.adult)}</div>`;
+      if (meal.recipe_url && meal.recipe_url.startsWith('http')) {
+        html += `<a href="${meal.recipe_url}" target="_blank" class="recipe-link">📖 ${meal.recipe_label || 'View Recipe'} ↗</a>`;
+      }
+      html += `</div>`;
+
+      // Morning prep tab
+      html += `<div class="tab-panel ${activeTab === 'prep' ? 'active' : ''}">`;
+      if (morningStepsList.length > 0) {
+        html += `<ul class="steps-list">`;
+        morningStepsList.forEach((step, sIdx) => {
+          const id = stepId(activeDay, idx, 'morning', sIdx);
+          const isDone = doneSteps[id];
+          const mins = extractTime(step);
+          html += `<li class="step-item ${isDone ? 'done' : ''}" onclick="toggleStep('${id}')">
+            <div class="step-num">${isDone ? '✓' : sIdx + 1}</div>
+            <div style="flex:1">
+              <div class="step-text">${escapeHtml(step)}</div>
+              ${mins ? `<div class="timer-badge">⏱ ${mins} min</div>` : ''}
+            </div>
+          </li>`;
+        });
+        html += `</ul>`;
+      } else {
+        html += `<p class="no-steps">No morning prep needed — comes together while eating!</p>`;
+      }
+      html += `</div>`;
+
+      // Kids tab
+      html += `<div class="tab-panel ${activeTab === 'kids' ? 'active' : ''}">`;
+      html += `<div class="kids-section"><div class="kids-label">👶 For the Kids</div><div>${escapeHtml(meal.kids)}</div></div>`;
+      html += `</div>`;
+
+      // Nutrition tab
+      if (meal.macros) {
+        const mx = meal.macros;
+        const rdaPct = (val, rda) => Math.min(100, Math.round(val / rda * 100));
+        const bar = (pct, color) => `<div class="nbar-bg"><div class="nbar-fill" style="width:${pct}%;background:${color}"></div></div>`;
+        const row = (label, val, unit, rda, color, flag) => `
+          <tr class="nrow">
+            <td class="nlabel">${label}</td>
+            <td class="nval">${val}<span class="nunit">${unit}</span></td>
+            <td class="nbar-cell">${bar(rdaPct(val,rda), color)}</td>
+            <td class="npct">${rdaPct(val,rda)}%${flag ? ' <span class="nflag">'+flag+'</span>' : ''}</td>
+          </tr>`;
+        html += `<div class="tab-panel ${activeTab === 'nutrition' ? 'active' : ''}">
+          <div class="nutrition-panel">
+            <div class="nutrition-disclaimer">📐 Per adult serving • ±15% estimated • <em>${escapeHtml(mx.note)}</em></div>
+            <div class="nutri-section-label">Macronutrients</div>
+            <table class="nutri-table">
+              <thead><tr><th>Nutrient</th><th>Amount</th><th class="th-bar"></th><th>% RDA</th></tr></thead>
+              <tbody>
+                ${row('Calories', mx.kcal, ' kcal', 2000, '#E8820C', '')}
+                ${row('Protein', mx.protein, 'g', 85, '#5B8C5A', '')}
+                ${row('Carbohydrates', mx.carbs, 'g', 300, '#4A90D9', '')}
+                ${row('Fat', mx.fat, 'g', 65, '#F5A623', '')}
+                ${row('Fiber', mx.fiber, 'g', 30, '#7B5EA7', '')}
+              </tbody>
+            </table>
+            <div class="nutri-section-label" style="margin-top:14px">Key Micronutrients</div>
+            <table class="nutri-table">
+              <thead><tr><th>Nutrient</th><th>Amount</th><th class="th-bar"></th><th>% RDA</th></tr></thead>
+              <tbody>
+                ${row('Iron', mx.iron, 'mg', 18, '#C0392B', '')}
+                ${row('Calcium', mx.calcium, 'mg', 1000, '#2980B9', '')}
+                ${row('Vitamin B12', mx.b12, 'mcg', 2.4, '#8E44AD', mx.b12 < 0.5 ? '⚠ plant meal' : '')}
+                ${row('Zinc', mx.zinc, 'mg', 11, '#27AE60', '')}
+                ${row('Vitamin C', mx.vitc, 'mg', 90, '#E74C3C', '')}
+                ${row('Folate', mx.folate, 'mcg', 400, '#16A085', '')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+      }
+
+      // Full Recipe tab
+      if (meal.full_recipe) {
+        const fr = meal.full_recipe;
+        html += `<div class="tab-panel ${activeTab === 'fullrecipe' ? 'active' : ''}"><div class="recipe-panel">`;
+        html += `<div class="recipe-panel-title">${escapeHtml(fr.title)}</div>`;
+        if (fr.subtitle) html += `<div class="recipe-panel-subtitle">${escapeHtml(fr.subtitle)}</div>`;
+        html += `<div class="recipe-meta">`;
+        if (fr.serves) html += `<span class="recipe-meta-chip">👥 Serves ${escapeHtml(fr.serves)}</span>`;
+        html += `</div>`;
+        if (fr.description) html += `<div class="recipe-desc-text">${escapeHtml(fr.description)}</div>`;
+        html += `<div class="recipe-section-label">Ingredients</div>`;
+        fr.ingredient_groups.forEach(group => {
+          const isOpt = group.group.toLowerCase().includes('optional');
+          html += `<div class="ingredient-group ${isOpt ? 'optional-group' : ''}">`;
+          html += `<div class="ingredient-group-name">${escapeHtml(group.group)}</div><ul class="ingredient-list">`;
+          group.items.forEach(item => { html += `<li class="ingredient-item">${escapeHtml(item)}</li>`; });
+          html += `</ul></div>`;
+        });
+        html += `<div class="recipe-section-label">Method</div><ol class="method-steps">`;
+        fr.steps.forEach(step => {
+          html += `<li class="method-step">
+            <div class="method-step-num">${step.num}</div>
+            <div class="method-step-content">
+              <div class="method-step-title">${escapeHtml(step.title)}</div>
+              <div class="method-step-text">${escapeHtml(step.text)}</div>
+              ${step.timer ? `<div class="method-step-timer">⏱ ${step.timer} min</div>` : ''}
+            </div></li>`;
+        });
+        html += `</ol>`;
+        if (fr.texture_goal) html += `<div class="recipe-section-label">Texture Goal</div><div class="texture-box">${escapeHtml(fr.texture_goal)}</div>`;
+        if (fr.serving_ideas && fr.serving_ideas.length) {
+          html += `<div class="recipe-section-label">Serving Ideas</div><div class="serving-tags">`;
+          fr.serving_ideas.forEach(s => { html += `<span class="serving-tag">${escapeHtml(s)}</span>`; });
+          html += `</div>`;
+        }
+        html += `</div></div>`;
+      }
+
+      html += `</div>`; // card-body
+    }
+    html += `</div>`; // meal-card
+  });
+  html += '</div>'; // meals-grid
+
+  // ── DAILY NUTRITION TOTALS ──
+  const dayMealsWithMacros = dayMeals.filter(m => m.macros);
+  if (dayMealsWithMacros.length > 0) {
+    const tot = dayMealsWithMacros.reduce((acc, m) => {
+      acc.kcal += m.macros.kcal; acc.protein += m.macros.protein;
+      acc.carbs += m.macros.carbs; acc.fat += m.macros.fat; acc.fiber += m.macros.fiber;
+      acc.iron += m.macros.iron; acc.calcium += m.macros.calcium; acc.b12 += m.macros.b12;
+      return acc;
+    }, {kcal:0,protein:0,carbs:0,fat:0,fiber:0,iron:0,calcium:0,b12:0});
+    html += `
+    <div class="section-heading" style="margin-top:28px;">
+      <span class="section-icon">📊</span> Daily Nutrition Totals
+      <button class="export-btn" onclick="exportToExcel()">⬇ Export to Excel</button>
+    </div>
+    <div class="daily-nutrition-bar">
+      <div class="dn-chip"><div class="dn-val">${tot.kcal}</div><div class="dn-lbl">kcal</div></div>
+      <div class="dn-divider"></div>
+      <div class="dn-chip"><div class="dn-val">${tot.protein}g</div><div class="dn-lbl">Protein</div></div>
+      <div class="dn-chip"><div class="dn-val">${tot.carbs}g</div><div class="dn-lbl">Carbs</div></div>
+      <div class="dn-chip"><div class="dn-val">${tot.fat}g</div><div class="dn-lbl">Fat</div></div>
+      <div class="dn-chip"><div class="dn-val">${tot.fiber}g</div><div class="dn-lbl">Fiber</div></div>
+      <div class="dn-divider"></div>
+      <div class="dn-chip micro"><div class="dn-val">${tot.iron.toFixed(1)}mg</div><div class="dn-lbl">Iron</div></div>
+      <div class="dn-chip micro"><div class="dn-val">${tot.calcium}mg</div><div class="dn-lbl">Calcium</div></div>
+      <div class="dn-chip micro ${tot.b12 < 1.5 ? 'dn-warn' : ''}"><div class="dn-val">${tot.b12.toFixed(1)}mcg</div><div class="dn-lbl">B12${tot.b12 < 1.5 ? ' ⚠' : ''}</div></div>
+    </div>`;
+  }
+
+  // ── SECTION: TONIGHT'S PREP ──
+  if (evePrepData) {
+    const nextDay = evePrepData.forDay;
+    html += `<div class="section-heading" style="margin-top:32px;">
+      <span class="section-icon">🌙</span> Tonight's Prep
+      <span class="section-for-label">→ for ${nextDay}</span>
+    </div>`;
+
+    html += `<div class="eve-prep-panel">`;
+    evePrepData.sections.forEach((sec, secIdx) => {
+      if (sec.items.length === 0) return; // skip empty sections like "no soaking needed"
+      html += `<div class="eve-section">`;
+      html += `<div class="eve-section-label"><span class="eve-icon">${sec.icon}</span>${escapeHtml(sec.label)}</div>`;
+      html += `<ul class="steps-list">`;
+      sec.items.forEach((item, itemIdx) => {
+        const id = `eve_${activeDay}_${secIdx}_${itemIdx}`;
+        const isDone = doneSteps[id];
+        html += `<li class="step-item ${isDone ? 'done' : ''}" onclick="toggleEveStep('${id}')">
+          <div class="step-num eve-step-num">${isDone ? '✓' : itemIdx + 1}</div>
+          <div style="flex:1">
+            <div class="step-text">${escapeHtml(item.text)}</div>
+            <span class="eve-tag">${escapeHtml(item.tag)}</span>
+          </div>
+        </li>`;
+      });
+      html += `</ul></div>`;
+    });
+    html += `</div>`; // eve-prep-panel
+  }
+
+  main.innerHTML = html;
+}
+
+function escapeHtml(text) {
+  return String(text || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+function selectDay(day) {
+  activeDay = day;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCard(day, idx) {
+  const key = `${day}_${idx}`;
+  openCards[key] = !openCards[key];
+  if (openCards[key] && !activeCardTab[key]) {
+    // default: if meal has morning prep show prep, else dish
+    const meal = MEAL_DATA.filter(m => m.day === day)[idx];
+    const hasMorning = parseSteps(meal.morning).length > 0;
+    activeCardTab[key] = hasMorning ? 'prep' : 'dish';
+  }
+  renderMain();
+}
+
+function switchTab(day, idx, tab) {
+  activeCardTab[`${day}_${idx}`] = tab;
+  renderMain();
+}
+
+function toggleStep(id) {
+  doneSteps[id] = !doneSteps[id];
+  render();
+}
+
+function toggleEveStep(id) {
+  doneSteps[id] = !doneSteps[id];
+  render();
+}
+
+function clearDaySteps() {
+  // Clear morning steps
+  const dayMeals = MEAL_DATA.filter(m => m.day === activeDay);
+  dayMeals.forEach((meal, idx) => {
+    parseSteps(meal.morning).forEach((_, sIdx) => {
+      delete doneSteps[stepId(activeDay, idx, 'morning', sIdx)];
+    });
+  });
+  // Clear evening prep steps
+  const evePrepData = EVE_PREP[activeDay];
+  if (evePrepData) {
+    evePrepData.sections.forEach((sec, secIdx) => {
+      sec.items.forEach((_, itemIdx) => {
+        delete doneSteps[`eve_${activeDay}_${secIdx}_${itemIdx}`];
+      });
+    });
+  }
+  render();
+}
+
+function saveSnack(key, value) {
+  snackEdits[key] = value;
+}
+
+function exportToExcel() {
+  // Build data rows for all days
+  const rows = [];
+  rows.push(['Day','Meal','Dish','Calories (kcal)','Protein (g)','Carbs (g)','Fat (g)','Fiber (g)','Iron (mg)','Calcium (mg)','Vitamin B12 (mcg)','Zinc (mg)','Vitamin C (mg)','Folate (mcg)','Notes']);
+  DAYS.forEach(day => {
+    MEAL_DATA.filter(m => m.day === day && m.macros).forEach(m => {
+      const mx = m.macros;
+      rows.push([
+        day,
+        getMealDisplayName(m.meal),
+        mx.name,
+        mx.kcal, mx.protein, mx.carbs, mx.fat, mx.fiber,
+        mx.iron, mx.calcium, mx.b12, mx.zinc, mx.vitc, mx.folate,
+        mx.note
+      ]);
+    });
+    // Daily totals row
+    const dayMx = MEAL_DATA.filter(m => m.day === day && m.macros);
+    if (dayMx.length > 0) {
+      const t = dayMx.reduce((a,m) => {
+        a.kcal+=m.macros.kcal; a.pro+=m.macros.protein; a.carb+=m.macros.carbs;
+        a.fat+=m.macros.fat; a.fib+=m.macros.fiber; a.fe+=m.macros.iron;
+        a.ca+=m.macros.calcium; a.b12+=m.macros.b12; a.zn+=m.macros.zinc;
+        a.vc+=m.macros.vitc; a.fol+=m.macros.folate; return a;
+      }, {kcal:0,pro:0,carb:0,fat:0,fib:0,fe:0,ca:0,b12:0,zn:0,vc:0,fol:0});
+      rows.push([day,'DAILY TOTAL','',t.kcal,t.pro,t.carb,t.fat,t.fib,
+        +t.fe.toFixed(1),t.ca,+t.b12.toFixed(1),+t.zn.toFixed(1),t.vc,t.fol,'']);
+      rows.push([]); // blank spacer
+    }
+  });
+
+  // Use SheetJS
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  script.onload = () => {
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    // Column widths
+    ws['!cols'] = [14,16,38,14,12,12,12,12,10,12,16,10,12,12,40].map(w=>({wch:w}));
+    // Style header row (bold)
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let c = range.s.c; c <= range.e.c; c++) {
+      const hdr = XLSX.utils.encode_cell({r:0,c});
+      if (!ws[hdr]) continue;
+      ws[hdr].s = {font:{bold:true}, fill:{fgColor:{rgb:'FFE0C070'}}};
+    }
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Nutrition');
+    // Add RDA reference sheet
+    const rdaRows = [
+      ['Nutrient','RDA (adults)','Unit','Notes'],
+      ['Calories','2000','kcal','General reference'],
+      ['Protein','85','g','Higher end for active adults'],
+      ['Carbohydrates','300','g',''],
+      ['Fat','65','g',''],
+      ['Fiber','30','g',''],
+      ['Iron','18','mg','Higher for women'],
+      ['Calcium','1000','mg',''],
+      ['Vitamin B12','2.4','mcg','Supplement advised for plant-heavy diets'],
+      ['Zinc','11','mg',''],
+      ['Vitamin C','90','mg',''],
+      ['Folate','400','mcg',''],
+    ];
+    const ws2 = XLSX.utils.aoa_to_sheet(rdaRows);
+    ws2['!cols'] = [22,18,10,42].map(w=>({wch:w}));
+    XLSX.utils.book_append_sheet(wb, ws2, 'RDA Reference');
+    XLSX.writeFile(wb, 'PrepWise_Nutrition.xlsx');
+  };
+  document.head.appendChild(script);
+}
+
+function escapeAttr(text) {
+  return String(text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function expandAll() {
+  const dayMeals = MEAL_DATA.filter(m => m.day === activeDay);
+  dayMeals.forEach((meal, idx) => {
+    if (getMealSlotType(meal.meal) === 'snack') return; // snack cards are always open
+    const key = `${activeDay}_${idx}`;
+    openCards[key] = true;
+    if (!activeCardTab[key]) {
+      const hasMorning = parseSteps(meal.morning).length > 0;
+      activeCardTab[key] = hasMorning ? 'prep' : 'dish';
+    }
+  });
+  renderMain();
+}
+
+// ── KITCHEN MODE ──
+function openKitchenMode() {
+  const overlay = document.getElementById('prepOverlay');
+  const body = document.getElementById('overlayBody');
+  const titleEl = document.getElementById('overlayTitle');
+
+  titleEl.textContent = `🍳 Kitchen Mode — ${activeDay}`;
+
+  const dayMeals = MEAL_DATA.filter(m => m.day === activeDay);
+  const evePrepData = EVE_PREP[activeDay];
+  const allItems = [];
+
+  // Morning steps per meal
+  const hasMorning = dayMeals.some(m => parseSteps(m.morning).length > 0);
+  if (hasMorning) {
+    allItems.push({ isHeader: true, header: '🌅 Morning Prep — for today\'s meals' });
+    dayMeals.forEach((meal, mIdx) => {
+      const steps = parseSteps(meal.morning);
+      if (steps.length > 0) {
+        allItems.push({ isSub: true, header: getMealTimeLabel(meal.meal) + ' ' + getMealDisplayName(meal.meal) });
+        steps.forEach((step, sIdx) => {
+          allItems.push({ text: step, id: stepId(activeDay, mIdx, 'morning', sIdx) });
+        });
+      }
+    });
+  }
+
+  // Evening prep collated
+  if (evePrepData) {
+    allItems.push({ isHeader: true, header: `🌙 Tonight's Prep — for ${evePrepData.forDay}` });
+    evePrepData.sections.forEach((sec, secIdx) => {
+      if (sec.items.length === 0) return;
+      allItems.push({ isSub: true, header: sec.icon + ' ' + sec.label });
+      sec.items.forEach((item, itemIdx) => {
+        allItems.push({ text: item.text, id: `eve_${activeDay}_${secIdx}_${itemIdx}`, tag: item.tag });
+      });
+    });
+  }
+
+  if (allItems.length === 0) {
+    body.innerHTML = `<div style="color:rgba(253,248,242,0.5);text-align:center;padding:60px 0;font-size:18px;">No prep steps for ${activeDay}.</div>`;
+  } else {
+    let stepCount = 0;
+    body.innerHTML = allItems.map(s => {
+      if (s.isHeader) return `<div style="font-family:'Playfair Display',serif;color:var(--saffron);padding:28px 0 6px;font-size:15px;font-weight:700;border-top:1px solid rgba(232,130,12,0.15);margin-top:8px;">${s.header}</div>`;
+      if (s.isSub) return `<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:rgba(253,248,242,0.35);padding:12px 0 4px;">${s.header}</div>`;
+      const isDone = doneSteps[s.id];
+      stepCount++;
+      const n = stepCount;
+      return `
+        <div class="prep-mode-step ${isDone ? 'done' : ''}" onclick="toggleKitchenStep('${s.id}', this)">
+          <div class="prep-mode-num">${isDone ? '✓' : n}</div>
+          <div>
+            <div class="prep-mode-text">${escapeHtml(s.text)}</div>
+            ${s.tag ? `<span style="font-size:11px;color:rgba(232,130,12,0.5);font-weight:600;">${escapeHtml(s.tag)}</span>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function toggleKitchenStep(id, el) {
+  doneSteps[id] = !doneSteps[id];
+  el.classList.toggle('done');
+  const num = el.querySelector('.prep-mode-num');
+  if (doneSteps[id]) {
+    num.textContent = '✓';
+  } else {
+    // restore original number — re-render
+    openKitchenMode();
+    return;
+  }
+  renderDayTabs(); // update progress %
+}
+
+function closeKitchenMode() {
+  document.getElementById('prepOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+  render();
+}
+
+
+// ── VIEW STATE ──
+let activeView = 'mealplan'; // 'mealplan' | 'prepguide' | 'recipes'
+let activeRecipeId = null;
+
+// ── PREP GUIDE DATA ──
+const PREP_GUIDE = {
+  windows: [
+    { label: "Anchor Session", title: "Sunday Evening", time: "~75 min", desc: "All the batch components for the week" },
+    { label: "Roti Dough", title: "Monday Night", time: "~15 min", desc: "Batch 1 — covers Tue, Wed, Thu" },
+    { label: "Roti Dough", title: "Thursday Night", time: "~20 min", desc: "Batch 2 — covers Fri, Sat, Sun" }
+  ],
+  sunday: [
+    {
+      num: 1, title: "Ginger-Garlic Paste", time: "10 min",
+      usedIn: ["Every curry, keema, bhurji — all 6 main dishes"],
+      keeps: "7 days refrigerated · 1 month frozen",
+      makes: "~¼ cup",
+      meta: { Makes: "~¼ cup", Keeps: "7 days fridge · 1 month frozen" },
+      steps: [
+        "Blend 1 head garlic (peeled) + 3-inch knob ginger (peeled) + 1 tbsp oil + 1 tbsp water + pinch salt until completely smooth.",
+        "Transfer to a small jar. Smooth surface. Drizzle a thin layer of oil on top to seal (prevents oxidation). Refrigerate."
+      ],
+      note: "Tip: freeze half in an ice cube tray for backup supply."
+    },
+    {
+      num: 2, title: "Onion-Tomato Masala Base", time: "25 min",
+      usedIn: ["Palak Paneer (Tue)", "Baingan Bharta base (Wed)", "Stuffed Capsicum (Thu)", "Mushroom-Tofu Keema (Fri)", "Egg Curry gravy (Fri)", "Tikka Masala (Sat)"],
+      meta: { Makes: "~3 cups · 6 portions", Keeps: "6-7 days refrigerated · 3 months frozen" },
+      steps: [
+        "Heat 3 tbsp oil in a wide pan. Add 1½ tsp cumin seeds — let crackle 30 sec. Add 3 large onions (finely chopped) + pinch salt. Cook on medium-low 12-15 min, stirring occasionally, until deep golden. Don't rush.",
+        "Add 2 tbsp ginger-garlic paste. Cook 2 min until raw smell disappears.",
+        "Add 1 tsp turmeric · 1½ tsp coriander powder · 1 tsp red chilli powder. Stir 30-40 sec until fragrant.",
+        "Add 4 medium tomatoes (chopped). Cook uncovered 8-10 min, mashing with spoon, until completely broken down and oil separates from sides.",
+        "Add 1 tsp garam masala. Cook 1 min. Cool completely. Divide into 6 portions (~½ cup each) in labelled containers. Refrigerate."
+      ],
+      note: "This is the single highest-impact prep item — it powers 6 out of 6 main dishes this week."
+    },
+    {
+      num: 3, title: "Spinach Puree", time: "10 min",
+      usedIn: ["Palak Paneer (Tuesday lunch + evening kids dinner)"],
+      meta: { Makes: "~1½ cups (from 300g fresh spinach)", Keeps: "4-5 days refrigerated" },
+      steps: [
+        "Blanch 300g fresh spinach in boiling salted water for 1-2 min until just wilted.",
+        "Drain immediately. Transfer to a bowl of ice water — this preserves the bright green colour. Drain, squeeze out excess water.",
+        "Blend until smooth. Refrigerate in airtight container."
+      ],
+      note: "The ice bath is essential — don't skip it. Pre-pureeing saves the blanch-and-blend step on Tuesday morning."
+    },
+    {
+      num: 4, title: "Cooked Chickpeas", time: "5 min (canned) · 45 min (dried)",
+      usedIn: ["Baingan-Chana Bharta (Wed lunch)", "Roasted chickpeas for Wed salad", "Roasted chickpeas for Thu salad", "Yucca-Chickpea Stew (Sun lunch)"],
+      meta: { Makes: "~4 cups cooked", Keeps: "5 days refrigerated" },
+      steps: [
+        "If using canned: drain and rinse 2 cans (400g each). Done.",
+        "If using dried: soak 200g dried chickpeas overnight. Pressure cook 25-30 min or boil 60-75 min until tender. Cool, refrigerate."
+      ],
+      note: "Don't pre-roast for salads — roast fresh each day (20 min at 200°C) for crunch. Pre-roasted chickpeas go stale quickly."
+    },
+    {
+      num: 5, title: "Cooked Dal (Lentils)", time: "20 min",
+      usedIn: ["Stuffed Capsicum lentil-paneer filling (Thu lunch)", "Warm dal alongside Egg Curry (Fri comfort)"],
+      meta: { Makes: "~2 cups cooked", Keeps: "5 days refrigerated" },
+      steps: [
+        "Rinse ¾ cup masoor dal (red lentils) or toor dal.",
+        "Pressure cook 3-4 whistles or simmer with 2 cups water + ½ tsp turmeric + salt for 20 min until soft. Keep slightly thick. Refrigerate plain — season when using."
+      ],
+      note: "Cook unseasoned — you'll season it differently for the capsicum filling vs the comfort dal."
+    },
+    {
+      num: 6, title: "Paneer — Cubed & Stored", time: "5 min",
+      usedIn: ["Palak Paneer (Tue)", "Stuffed Capsicum filling (Thu)", "Sweet Potato-Cheese Paratha for kids (Sat)"],
+      meta: { Makes: "~300g ready-to-use cubes", Keeps: "4-5 days submerged in cold water" },
+      steps: [
+        "Cut entire block into ½-inch cubes.",
+        "Place in a container, cover with cold water, lid on. Refrigerate. Change water every 2 days.",
+        "Optional: pan-fry all cubes in 1 tsp oil 3-4 min until golden on one side — adds texture and extends shelf life slightly."
+      ],
+      note: "No daily cutting — pull as needed during the week."
+    },
+    {
+      num: 7, title: "Broccoli — Washed & Cut", time: "5 min",
+      usedIn: ["Kids' paratha plate every day (Tue-Sat) — steamed fresh each morning"],
+      meta: { Makes: "1 full head in florets", Keeps: "4-5 days in airtight container" },
+      steps: [
+        "Wash head of broccoli thoroughly. Pat completely dry.",
+        "Cut into bite-sized florets. Store in an airtight container with a paper towel inside to absorb moisture."
+      ],
+      note: "Do NOT pre-steam — steam fresh each morning (5 min). Pre-steaming makes it soggy."
+    },
+    {
+      num: 8, title: "Smoothie Packs (Freezer)", time: "10 min",
+      usedIn: ["Each evening's smoothie Tue-Sat — grab, add almond milk, blend"],
+      meta: { Makes: "5 labelled freezer bags", Keeps: "Weeks in freezer" },
+      smoothiePacks: [
+        { day: "Tuesday", label: "Bag 1 — Beet-Banana", contents: "1 small beet (cooked, cubed) + 1 banana (sliced)" },
+        { day: "Wednesday", label: "Bag 2 — Berry-Banana", contents: "½ cup mixed berries + 1 banana (sliced)" },
+        { day: "Thursday", label: "Bag 3 — Mango-Banana", contents: "½ cup mango chunks + 1 banana (sliced)" },
+        { day: "Friday", label: "—", contents: "No smoothie (Comfort Night)" },
+        { day: "Saturday", label: "Bag 4 — Avo-Mango", contents: "½ avocado (chunks) + ½ cup mango chunks" },
+        { day: "Sunday", label: "Bag 5 — Avo-Strawberry", contents: "½ avocado (chunks) + ½ cup strawberries" }
+      ],
+      note: "Add almond milk and any liquid ingredients when blending — these can't be portioned ahead."
+    },
+    {
+      num: 9, title: "All 5 Salad Dressings", time: "20 min total",
+      usedIn: ["Tue: Lemon-Sesame Ginger", "Wed: Feta Caesar", "Thu: Lemon-Herb", "Fri: Honey-Yogurt (broccoli bowl)", "Sat: Thai Peanut"],
+      meta: { Makes: "5 jars, labelled by day" },
+      dressings: [
+        { day: "Tue", name: "Lemon-Sesame Ginger", keeps: "7 days", recipe: "2 tbsp lemon juice · 1 tbsp sesame oil · 1 tbsp olive oil · 1 tsp soy sauce · 1 tsp honey · ½ tsp grated ginger · ½ tsp Dijon · 1-2 tbsp water — shake in a jar." },
+        { day: "Wed", name: "Feta Caesar", keeps: "5 days", recipe: "⅓ cup crumbled feta · 2 tbsp Greek yogurt · 2 tbsp olive oil · 1½ tbsp lemon juice · 1 tsp Dijon · 1 garlic clove (grated) · 1 tsp feta brine · pepper · 1-2 tbsp water — blend until smooth." },
+        { day: "Thu", name: "Lemon-Herb", keeps: "7 days", recipe: "2 tbsp olive oil · 1½ tbsp lemon juice · 1 tsp Dijon · ½ tsp honey · 1 tbsp parsley or dill · ½ garlic clove · salt & pepper — whisk until emulsified." },
+        { day: "Fri", name: "Honey-Yogurt", keeps: "5 days", recipe: "3 tbsp Greek yogurt · 1 tbsp mayo · 1 tbsp honey · 1½ tbsp apple cider vinegar · 1 tsp Dijon · salt & pepper — whisk smooth." },
+        { day: "Sat", name: "Thai Peanut", keeps: "7 days", recipe: "3 tbsp peanut butter · 1½ tbsp lime juice · 1 tbsp soy sauce · 1 tsp sesame oil · 1 tsp honey · 1 tsp grated ginger · 1 garlic clove · 2-4 tbsp warm water — whisk until creamy and pourable." }
+      ],
+      note: "Store each in a labelled jar. Give it a quick shake before using."
+    }
+  ],
+  monday: {
+    title: "Roti Dough — Batch 1",
+    subtitle: "Covers Tuesday · Wednesday · Thursday",
+    time: "~15 min",
+    meta: { Makes: "~14-16 rotis/parathas", Keeps: "3 days refrigerated" },
+    steps: [
+      "Mix 3 cups whole wheat atta + ¾ tsp salt. Add 1 tbsp oil, rub in with fingertips.",
+      "Add ~¾ cup warm water gradually — start with ½ cup then 1 tbsp at a time. Dough should come together without sticking.",
+      "Knead on a clean surface 8-10 min until smooth and elastic. It should spring back slowly when poked.",
+      "Coat ball with oil. Place in airtight container or wrap tightly in cling film. Refrigerate.",
+      "Also tonight: soak almonds (35), walnuts (7), dried figs (7) in separate bowls for tomorrow's breakfast."
+    ],
+    note: "Pull from fridge 10 min before rolling — cold dough tears. Plain whole wheat works for all Tue-Thu parathas; no multigrain variation needed."
+  },
+  thursday: {
+    title: "Roti Dough — Batch 2",
+    subtitle: "Covers Friday · Saturday · Sunday",
+    time: "~20 min",
+    meta: { Makes: "~16-18 rotis/parathas", Keeps: "3 days refrigerated" },
+    steps: [
+      "Mix 3½ cups whole wheat atta + 1 tsp salt. Add 1 tbsp oil, rub in with fingertips.",
+      "Add ~¾ cup warm water gradually. Knead 8-10 min until smooth and elastic.",
+      "Optional: fold in 2 tbsp rolled oats or 1 tbsp ground flaxseed for Friday's multigrain rotis.",
+      "Coat ball with oil, wrap tight, refrigerate.",
+      "Also tonight: soak nuts for Friday breakfast. Pre-roast chickpeas for Thursday's salad if not yet done."
+    ],
+    note: "This batch needs to last until Sunday — make sure the container is truly airtight."
+  },
+  rolling: [
+    { title: "Soak nuts each evening", note: "Almonds: 8 hrs · Walnuts: 4-6 hrs · Figs: 2-4 hrs. Cover bowls, leave on counter. Do this each evening for the following morning — can't be batched for the whole week." },
+    { title: "Roast chickpeas for salads", note: "Roast fresh each evening (20 min at 200°C). Pre-roasted chickpeas go stale quickly. Already in each day's Tonight's Prep panel in the Meal Plan view." },
+    { title: "Steam broccoli daily", note: "Broccoli is cut Sunday and stored. Steam fresh each morning (5 min). Pre-steaming makes it waterlogged." },
+    { title: "Boil eggs for salads", note: "Boil the night before or morning of. Hard-boiled eggs keep 5 days peeled in water, but freshly boiled have better texture." },
+    { title: "Smoothie liquid", note: "Add almond milk fresh when blending — it can't be portioned into the freezer packs. Keep a carton in the fridge." }
+  ],
+  fridge: [
+    { container: "Ginger-garlic paste (jar)", keeps: "Until next Sunday", usedFor: "All curries, keema, bhurji" },
+    { container: "Onion-tomato masala (6 portions)", keeps: "Saturday", usedFor: "All 6 main curry dishes" },
+    { container: "Spinach puree", keeps: "Thursday", usedFor: "Palak Paneer (Tue)" },
+    { container: "Cooked chickpeas", keeps: "Friday", usedFor: "Bharta, 2× salads, Sun stew" },
+    { container: "Cooked dal (lentils)", keeps: "Friday", usedFor: "Stuffed capsicum filling, Fri dal" },
+    { container: "Paneer in cold water", keeps: "Thursday-Friday", usedFor: "Palak paneer, capsicum, paratha" },
+    { container: "Broccoli florets (dry, airtight)", keeps: "Thursday-Friday", usedFor: "Kids plate daily" },
+    { container: "5 dressing jars (labelled by day)", keeps: "Tue-Sat (see label)", usedFor: "Each evening salad or bowl" },
+    { container: "5 smoothie packs (freezer)", keeps: "Weeks", usedFor: "Grab-and-blend each evening" },
+    { container: "Roti dough Batch 1", keeps: "Thursday (made Mon night)", usedFor: "Tue-Thu rotis & parathas" },
+    { container: "Roti dough Batch 2", keeps: "Sunday (made Thu night)", usedFor: "Fri-Sun rotis & parathas" }
+  ]
+};
+
+// ── RECIPE DATA ──
+const RECIPES = [{"id": "menemen", "title": "Capsicum-Egg Menemen", "subtitle": "Turkish-Inspired Scrambled Eggs", "description": "Eggs cooked into sweet peppers, tomatoes, and feta. Bright, savoury, and scoopable with soft bread. Ready in under 15 minutes.", "serves": "2 adults + kids", "day": "Tuesday", "meal": "10 AM Breakfast", "category": "breakfasts", "texture_goal": "Soft, custardy eggs with sweet peppers and chunky tomato.", "ingredient_groups": [{"group": "Main", "items": ["3 eggs per adult", "1 green capsicum, finely chopped", "Handful of mini peppers, chopped", "1 medium tomato, chopped", "50g feta, crumbled", "1 tbsp hemp seeds", "1 tbsp olive oil", "Salt, black pepper, pinch chilli flakes"]}], "steps": [{"num": 1, "title": "Sauté peppers", "text": "Heat oil in a pan over medium. Add capsicum and mini peppers. Sauté 3 min until slightly softened.", "timer": 3}, {"num": 2, "title": "Add tomato", "text": "Add chopped tomato. Cook 2 min, stirring, until it breaks down slightly."}, {"num": 3, "title": "Scramble the eggs", "text": "Crack eggs directly into pan. Let whites set 30 sec, then fold gently. Remove from heat while slightly soft — carry-over heat finishes them.", "timer": 4}, {"num": 4, "title": "Finish", "text": "Scatter feta, add hemp seeds. Serve with soft bread for dipping. Skip feta for toddler."}], "serving_ideas": ["Soft bread or lavash for scooping", "Works in a wrap for older kids", "Add a pinch of sumac for brightness"], "macros": {"kcal": 420, "protein": 27, "carbs": 18, "fat": 28, "fiber": 5}}, {"id": "egg_bhurji", "title": "Egg Bhurji", "subtitle": "Indian Spiced Scrambled Eggs", "description": "India's answer to scrambled eggs — spiced with cumin, turmeric, and coriander, cooked with onion and tomato. Bold, warming, and infinitely customisable.", "serves": "2 adults + kids", "day": "Wednesday", "meal": "10 AM Breakfast", "category": "breakfasts", "texture_goal": "Soft scrambled eggs studded with softened onion and tomato, lightly spiced.", "ingredient_groups": [{"group": "Main", "items": ["3 eggs per adult", "1 small onion, finely chopped", "1 medium tomato, finely chopped", "1 tsp ginger-garlic paste", "½ tsp cumin seeds", "¼ tsp turmeric", "½ tsp coriander powder", "¼ tsp red chilli powder (optional)", "1 tbsp hemp seeds", "1 tbsp oil", "Salt, fresh coriander to finish"]}], "steps": [{"num": 1, "title": "Temper spices", "text": "Heat oil. Add cumin seeds — let crackle 30 sec. Add onion and cook 3-4 min until softened."}, {"num": 2, "title": "Build the base", "text": "Add ginger-garlic paste, stir 1 min. Add dry spices, stir 30 sec. Add tomato, cook 2-3 min until softened.", "timer": 4}, {"num": 3, "title": "Scramble eggs", "text": "Crack eggs into pan. Fold gently through the masala. Cook to preferred set — slightly soft for adults, firmer for kids. Add hemp seeds.", "timer": 4}, {"num": 4, "title": "Finish", "text": "Top with fresh coriander. Serve with toast or soft bread."}], "serving_ideas": ["Serve with buttered toast or paratha", "Stuff into a wrap for a portable breakfast", "Leftovers are excellent cold"], "macros": {"kcal": 460, "protein": 28, "carbs": 38, "fat": 20, "fiber": 6}}, {"id": "frittata", "title": "Zucchini-Spinach Frittata", "subtitle": "Baked the Night Before", "description": "Baked the evening before and served sliced cold or warmed. Eggs, zucchini, spinach, and feta make a dense, protein-rich slab for the whole family.", "serves": "2 adults + kids (1 large bake)", "day": "Thursday", "meal": "10 AM Breakfast", "category": "breakfasts", "texture_goal": "Dense, set egg slab — slightly golden on top, soft and sliceable.", "ingredient_groups": [{"group": "Main", "items": ["4-5 eggs", "½ zucchini, sliced or grated", "100g fresh spinach, roughly chopped", "50g feta, crumbled", "2 tbsp milk or cream", "1 tbsp olive oil", "Salt, black pepper", "Pinch chilli flakes or nutmeg (optional)"]}], "steps": [{"num": 1, "title": "Sauté (evening before)", "text": "Preheat oven to 180°C / 350°F. Sauté zucchini in oil in an oven-safe pan 2-3 min. Add spinach, stir until wilted 1-2 min.", "timer": 4}, {"num": 2, "title": "Add eggs", "text": "Whisk eggs, milk, salt, pepper. Pour over vegetables. Scatter feta on top."}, {"num": 3, "title": "Bake", "text": "Transfer to oven. Bake 18-22 min until just set in centre. Cool, cover, refrigerate.", "timer": 20}, {"num": 4, "title": "Serve next morning", "text": "Slice into wedges. Serve cold or warm briefly in a pan. Toddler: small room-temperature pieces."}], "serving_ideas": ["Reheat slices in a dry pan 2 min each side", "Add sun-dried tomatoes or olives for variation", "Keeps 3 days refrigerated"], "macros": {"kcal": 480, "protein": 30, "carbs": 36, "fat": 24, "fiber": 7}}, {"id": "mushroom_scramble", "title": "Mushroom & Egg Scramble", "subtitle": "Earthy and High-Protein", "description": "Earthy sautéed mushrooms folded into soft eggs with wilted spinach and melted cheddar. A hearty breakfast that comes together in 12 minutes.", "serves": "2 adults + kids", "day": "Friday", "meal": "10 AM Breakfast", "category": "breakfasts", "texture_goal": "Large, soft egg curds with golden mushrooms and melted cheddar.", "ingredient_groups": [{"group": "Main", "items": ["3 eggs per adult", "100g white mushrooms, sliced", "Large handful spinach", "2 tbsp cheddar, grated", "1 tbsp hemp seeds", "1 tbsp butter or oil", "Salt, black pepper, pinch garlic powder"]}], "steps": [{"num": 1, "title": "Sauté mushrooms", "text": "Heat butter over medium-high. Add mushrooms in single layer — don't stir for 2 min to get colour. Then stir and cook 3 more min until golden.", "timer": 5}, {"num": 2, "title": "Add spinach", "text": "Add spinach, stir until wilted — 1 min. Season with salt and pepper."}, {"num": 3, "title": "Scramble eggs", "text": "Reduce heat to medium-low. Add eggs. Fold slowly and gently — large, soft curds are the goal. Remove from heat just before fully set.", "timer": 4}, {"num": 4, "title": "Finish", "text": "Add cheddar, fold in. Scatter hemp seeds. Serve on toast for kids."}], "serving_ideas": ["Serve with toast, paratha, or alongside a fruit smoothie", "Mushrooms can be sautéed night before — reheat briefly"], "macros": {"kcal": 450, "protein": 30, "carbs": 14, "fat": 30, "fiber": 5}}, {"id": "avo_toast", "title": "Avocado Toast with Poached Eggs", "subtitle": "Weekend Family Breakfast", "description": "Creamy mashed avocado on toasted multigrain bread, topped with perfectly poached eggs and chia seeds. The Saturday morning ritual.", "serves": "2 adults + kids", "day": "Saturday", "meal": "10 AM Breakfast", "category": "breakfasts", "texture_goal": "Creamy avocado, crunchy toast, runny egg yolk.", "ingredient_groups": [{"group": "Per adult", "items": ["2 poached eggs", "1 avocado (shared), mashed", "2 slices multigrain bread, toasted", "1 tbsp chia seeds", "Juice of ½ lemon", "Chilli flakes, salt & pepper"]}, {"group": "Kids", "items": ["Same mashed avo + well-set egg on soft toast strips", "Toddler: small pieces — loves it!"]}], "steps": [{"num": 1, "title": "Poach eggs", "text": "Bring deep pan to gentle simmer. Add splash of vinegar. Crack egg into a cup, swirl water, slide egg in. Cook 3-4 min for set white and runny yolk.", "timer": 4}, {"num": 2, "title": "Mash avocado", "text": "Scoop avocado into a bowl. Add lemon juice, salt, pepper. Mash with fork — leave slightly chunky."}, {"num": 3, "title": "Assemble", "text": "Toast bread. Spread avocado generously. Top with poached eggs. Scatter chia seeds and chilli flakes. Serve immediately."}], "serving_ideas": ["Add everything bagel seasoning", "Add sliced cherry tomatoes", "Make eggs well-set for toddler — no runny yolk under 2"], "macros": {"kcal": 500, "protein": 24, "carbs": 36, "fat": 32, "fiber": 12}}, {"id": "palak_paneer", "title": "Palak Paneer", "subtitle": "Classic Spinach & Cheese Curry", "description": "Silky pureed spinach gravy with soft paneer. Made efficiently here using batch-prepped spinach puree and onion-tomato masala — a 15-minute assembly on a weekday.", "serves": "2 adults + kids", "day": "Tuesday", "meal": "1:30 PM Lunch", "category": "lunches", "texture_goal": "Velvety smooth spinach gravy with soft, flavour-absorbing paneer cubes.", "ingredient_groups": [{"group": "Main (batch-prepped)", "items": ["150g paneer, cubed", "300g spinach, blanched and pureed", "½ cup onion-tomato masala base", "1 tsp ginger-garlic paste"]}, {"group": "Spices & finish", "items": ["½ tsp garam masala", "¼ tsp turmeric", "1 tsp cumin seeds", "2 tbsp cream or Greek yogurt", "1 tbsp oil or butter", "Salt to taste"]}, {"group": "To serve", "items": ["Brown rice", "Broccoli florets, steamed 5 min", "1 tbsp hemp seeds on rice"]}], "steps": [{"num": 1, "title": "Heat the masala", "text": "Heat oil. Add cumin seeds — let crackle 30 sec. Add onion-tomato masala base. Cook 3-4 min until sizzling and deep coloured."}, {"num": 2, "title": "Add spinach", "text": "Pour in spinach puree. Add ginger-garlic paste, turmeric, garam masala. Stir well. Simmer 5 min on low.", "timer": 5}, {"num": 3, "title": "Add paneer", "text": "Add paneer cubes. Simmer 3-4 min. Stir in cream or yogurt, simmer 1 min more.", "timer": 4}, {"num": 4, "title": "Serve", "text": "Adjust salt and consistency. Serve over brown rice with steamed broccoli. Top rice with hemp seeds."}], "serving_ideas": ["Use batch-prepped masala to make this a 15-min dish", "Freeze extra in portions for future weeks"], "macros": {"kcal": 540, "protein": 28, "carbs": 54, "fat": 22, "fiber": 14}}, {"id": "stuffed_capsicum", "title": "Stuffed Capsicum Curry", "subtitle": "Lentil-Paneer Filling in Tomato Masala", "description": "Yellow and red capsicums stuffed with spiced lentil-paneer filling, simmered in a rich tomato masala. Visually stunning and made mostly from batch-prepped components.", "serves": "2 adults + kids", "day": "Thursday", "meal": "1:30 PM Lunch", "category": "lunches", "texture_goal": "Tender capsicum shell with a dense, savoury filling, coated in rich masala.", "ingredient_groups": [{"group": "Capsicums", "items": ["2 large capsicums (1 yellow, 1 red)", "1 tbsp oil for brushing"]}, {"group": "Filling (batch-prepped)", "items": ["½ cup cooked lentils / dal", "100g paneer, crumbled", "1 tsp cumin seeds, ½ tsp coriander powder, ¼ tsp garam masala", "1 tsp ginger-garlic paste", "Salt to taste, 2 tbsp coriander"]}, {"group": "Curry base (batch-prepped)", "items": ["½ cup onion-tomato masala base", "1 tomato, chopped", "¼ cup water", "¼ tsp turmeric, ½ tsp garam masala"]}, {"group": "To serve", "items": ["¾ cup quinoa per adult"]}], "steps": [{"num": 1, "title": "Make filling", "text": "Mix cooked lentils, crumbled paneer, all spices, and coriander. Season well — filling should be dense."}, {"num": 2, "title": "Prep capsicums", "text": "Cut tops off, remove seeds. Brush inside and outside with oil. Stuff firmly with the filling."}, {"num": 3, "title": "Make curry base", "text": "In a deep pan, heat masala, add tomato, water, spices. Stir and simmer 3 min."}, {"num": 4, "title": "Cook", "text": "Stand stuffed capsicums upright in curry. Cover and cook on medium-low 20-25 min until tender. Baste occasionally.", "timer": 22}, {"num": 5, "title": "Serve", "text": "Serve each capsicum whole on quinoa with curry spooned around. For kids: scoop filling out, serve with paratha."}], "serving_ideas": ["Capsicums can be stuffed the night before and refrigerated raw", "Leftover filling is excellent in parathas"], "macros": {"kcal": 520, "protein": 26, "carbs": 60, "fat": 16, "fiber": 14}}, {"id": "mushroom_tofu_keema", "title": "Mushroom-Tofu Keema", "subtitle": "Meat-Free Mince with Peas", "description": "Finely minced mushrooms and crumbled tofu cooked dry with peas and warm spices. Deeply flavoured, versatile — works in rotis, parathas, or as a rice bowl.", "serves": "2 adults + kids", "day": "Friday", "meal": "1:30 PM Lunch", "category": "lunches", "texture_goal": "Dry, cohesive mince — earthy mushroom and firm tofu, well-spiced.", "ingredient_groups": [{"group": "Main", "items": ["200g white mushrooms, finely minced", "200g firm tofu, crumbled or grated", "½ cup green peas", "½ cup onion-tomato masala base", "1 tsp ginger-garlic paste", "1 tsp cumin seeds", "½ tsp coriander powder, ½ tsp garam masala, ¼ tsp turmeric", "1 tbsp oil", "Salt, fresh coriander to finish"]}, {"group": "To serve", "items": ["2-3 multigrain rotis per adult", "Cucumber slices", "Raita"]}], "steps": [{"num": 1, "title": "Prep (night before)", "text": "Finely mince mushrooms and crumble/grate tofu. Store covered in fridge."}, {"num": 2, "title": "Cook masala", "text": "Heat oil. Add cumin seeds. Add masala base, cook 2-3 min until sizzling."}, {"num": 3, "title": "Cook mushrooms + tofu", "text": "Add mushrooms. Cook uncovered on medium-high 8-10 min, stirring frequently — mushrooms must release and reabsorb moisture to become dry and flavourful.", "timer": 10}, {"num": 4, "title": "Finish", "text": "Add tofu (if not already in), peas, spices, salt. Cook 5 more min until dry and well-coated. Add coriander.", "timer": 5}], "serving_ideas": ["Pre-prepped the night before — just reheat morning of", "Excellent stuffed into a wrap", "Toddler-friendly: mild and easy to scoop"], "macros": {"kcal": 460, "protein": 28, "carbs": 46, "fat": 14, "fiber": 12}}, {"id": "tikka_masala", "title": "Sweet Potato & Black Bean Tikka Masala", "subtitle": "Creamy, Plant-Based Saturday Lunch", "description": "Roasted sweet potato and hearty black beans in a creamy tikka masala sauce. Rich, filling, and naturally vegan — topped with coriander and lime.", "serves": "2 adults + kids", "day": "Saturday", "meal": "1:30 PM Lunch", "category": "lunches", "texture_goal": "Tender sweet potato cubes and creamy black beans in a thick, spiced coconut sauce.", "ingredient_groups": [{"group": "Main", "items": ["2 large sweet potatoes, cubed", "1 cup black beans (cooked or canned)", "½ cup onion-tomato masala base", "1 tsp ginger-garlic paste", "½ cup coconut milk or cream", "1 tsp garam masala, 1 tsp paprika", "½ tsp cumin seeds", "1 tbsp oil", "Salt"]}, {"group": "To serve", "items": ["¾ cup quinoa per adult", "Fresh coriander, squeeze of lime"]}], "steps": [{"num": 1, "title": "Roast sweet potato", "text": "Toss cubes with 1 tsp oil, salt, paprika. Roast at 200°C / 400°F for 20-25 min until caramelised.", "timer": 22}, {"num": 2, "title": "Cook masala", "text": "Heat oil. Add cumin seeds. Add masala base, cook 3 min. Add ginger-garlic paste, spices, stir 1 min."}, {"num": 3, "title": "Build sauce", "text": "Add coconut milk. Stir, simmer 5 min until creamy and thick. Add black beans.", "timer": 5}, {"num": 4, "title": "Finish", "text": "Fold in roasted sweet potato gently. Simmer 3 min. Serve over quinoa with coriander and lime."}], "serving_ideas": ["Pre-roast sweet potato the night before", "Naturally vegan without cream", "Leftovers keep well for next day"], "macros": {"kcal": 530, "protein": 24, "carbs": 78, "fat": 14, "fiber": 18}}, {"id": "yucca_stew", "title": "Yucca Root & Chickpea Coconut Stew", "subtitle": "Tropical Sunday Lunch", "description": "Boiled yucca and chickpeas in a golden coconut-turmeric broth with curry leaves. Unusual, comforting, and beloved by toddlers who enjoy soft textures.", "serves": "2 adults + kids", "day": "Sunday", "meal": "1:30 PM Lunch", "category": "lunches", "texture_goal": "Soft yucca and chickpeas in a thin, aromatic coconut broth.", "ingredient_groups": [{"group": "Main", "items": ["2 cups yucca root, peeled and boiled until tender", "1 cup cooked chickpeas", "1 can (400ml) coconut milk", "100g spinach, chopped", "10-12 curry leaves", "1 tsp turmeric, 1 tsp cumin seeds, ½ tsp mustard seeds", "1 tsp ginger-garlic paste", "1 medium onion, sliced", "2 tbsp oil", "Salt"]}, {"group": "To serve", "items": ["Brown rice or roti", "Lime wedges, fresh coriander"]}], "steps": [{"num": 1, "title": "Boil yucca (night before)", "text": "Peel yucca (waxy coating — use sharp peeler). Cut into 1-inch chunks. Boil in salted water 25-30 min until fork-tender. Drain, refrigerate.", "timer": 28}, {"num": 2, "title": "Temper aromatics", "text": "Heat oil. Add mustard seeds (let pop), curry leaves, cumin. Add onion, cook 5 min. Add ginger-garlic paste, turmeric, stir 1 min."}, {"num": 3, "title": "Build stew", "text": "Add coconut milk. Stir in chickpeas and boiled yucca. Simmer 10 min until flavours meld.", "timer": 10}, {"num": 4, "title": "Finish", "text": "Stir in spinach, wilt 2 min. Adjust salt. Squeeze lime over. Toddler: mash yucca and chickpeas in broth — becomes a smooth, mild porridge-like texture they love."}], "serving_ideas": ["Yucca boiled Sunday evening — just reheat stew and assemble", "Stew can be made entirely ahead", "Also excellent with taro root if yucca unavailable"], "macros": {"kcal": 490, "protein": 16, "carbs": 72, "fat": 16, "fiber": 14}}, {"id": "masala_base", "title": "Onion-Tomato Masala Base", "subtitle": "The Weekly Foundation — Make Every Sunday", "description": "The foundational curry base used in all 6 main dishes this week. Cook once on Sunday and it powers the whole week. Eliminates 25+ minutes of daily repetitive cooking.", "serves": "6 portions (~½ cup each)", "day": "Sunday", "meal": "Weekly Prep", "category": "foundations", "texture_goal": "Thick, deeply coloured paste — oil separating at the edges.", "ingredient_groups": [{"group": "Ingredients", "items": ["3 large onions, finely chopped", "4 medium tomatoes, chopped", "2 tbsp ginger-garlic paste", "1½ tsp cumin seeds", "1 tsp turmeric", "1½ tsp coriander powder", "1 tsp red chilli powder", "1 tsp garam masala", "1½ tsp salt", "3 tbsp neutral oil"]}], "steps": [{"num": 1, "title": "Build the onion base", "text": "Heat oil. Add cumin seeds — let crackle 30 sec. Add onions + pinch salt. Cook on medium-low, stirring occasionally, 12-15 min until deep golden. Don't rush — this long cooking builds the flavour.", "timer": 15}, {"num": 2, "title": "Add aromatics", "text": "Add ginger-garlic paste. Cook 2 min until raw smell disappears."}, {"num": 3, "title": "Bloom spices", "text": "Add turmeric, coriander powder, chilli powder. Stir 30-40 sec until fragrant and toasty."}, {"num": 4, "title": "Cook down tomatoes", "text": "Add chopped tomatoes. Cook uncovered 8-10 min, mashing with spoon, until completely broken down and oil separates from the sides.", "timer": 10}, {"num": 5, "title": "Finish and portion", "text": "Add garam masala, cook 1 min. Cool completely. Divide into 6 equal portions (~½ cup each) in labelled containers. Refrigerate."}], "serving_ideas": ["Used in: Palak Paneer · Bharta · Stuffed Capsicum · Keema · Egg Curry · Tikka Masala", "Freeze unused portions for next week", "The deeper the onion colour, the richer the masala"], "macros": null}, {"id": "ginger_garlic_paste", "title": "Ginger-Garlic Paste", "subtitle": "Fresh Batch Every Sunday", "description": "Fresh ginger and garlic blended into a smooth paste. Made once on Sunday, used in virtually every savoury dish all week. Incomparably better than store-bought.", "serves": "~¼ cup (enough for the week)", "day": "Sunday", "meal": "Weekly Prep", "category": "foundations", "texture_goal": "Completely smooth, uniform paste with no chunks.", "ingredient_groups": [{"group": "Ingredients", "items": ["1 full head garlic, peeled (about 10-12 cloves)", "3-inch knob fresh ginger, peeled and sliced", "1 tbsp neutral oil", "1 tbsp water", "Pinch of salt"]}], "steps": [{"num": 1, "title": "Blend", "text": "Add all ingredients to a small blender or food processor. Blend until completely smooth — about 1-2 min, scraping down sides as needed."}, {"num": 2, "title": "Store", "text": "Transfer to a small jar. Smooth the surface. Drizzle a thin layer of oil on top to create a seal that prevents oxidation. Refrigerate."}], "serving_ideas": ["Use 1 tsp per dish as baseline", "Freeze in ice cube trays for 1-month supply", "Oil seal on top is important — don't skip it"], "macros": null}, {"id": "roti_dough", "title": "Roti Dough", "subtitle": "Batch 1 (Mon night) · Batch 2 (Thu night)", "description": "The base dough for all rotis and parathas. Made twice a week — Batch 1 covers Tuesday-Thursday, Batch 2 covers Friday-Sunday. Pull from fridge 10 min before rolling.", "serves": "14-18 rotis per batch", "day": "Monday / Thursday", "meal": "Weekly Prep", "category": "foundations", "texture_goal": "Smooth, elastic, slightly tacky — springs back slowly when poked.", "ingredient_groups": [{"group": "Batch 1 (Monday — for Tue-Thu)", "items": ["3 cups whole wheat atta", "¾ tsp salt", "1 tbsp neutral oil", "~¾ cup warm water (add gradually)"]}, {"group": "Batch 2 (Thursday — for Fri-Sun)", "items": ["3½ cups whole wheat atta", "1 tsp salt", "1 tbsp neutral oil", "~¾ cup warm water", "Optional: 2 tbsp rolled oats or 1 tbsp ground flaxseed for Friday multigrain rotis"]}], "steps": [{"num": 1, "title": "Mix", "text": "Combine atta and salt. Add oil, rub in with fingertips until it resembles coarse breadcrumbs. Add warm water gradually — start with ½ cup, then add 1 tbsp at a time. Dough should come together without sticking."}, {"num": 2, "title": "Knead", "text": "Knead on a clean surface 8-10 min until smooth and elastic. The surface should feel soft. Poke it — it should spring back slowly.", "timer": 10}, {"num": 3, "title": "Store", "text": "Coat the dough ball with a thin layer of oil. Place in airtight container or wrap tightly in cling film. Refrigerate."}, {"num": 4, "title": "Use", "text": "Pull from fridge 10 min before rolling — cold dough tears. Roll thin on a dry surface. Cook on hot tawa 1-2 min per side until brown spots appear and it puffs."}], "serving_ideas": ["10-min temper time before rolling is non-negotiable", "For parathas: roll, add filling, fold, roll out again", "Can be frozen in individual balls up to 2 weeks", "If sticky after refrigeration, dust hands with dry atta when rolling"], "macros": null}, {"id": "romaine_roasted_sweet_potato_edamame_and", "title": "Romaine, Roasted Sweet Potato, Edamame & Tofu Salad", "subtitle": "with Lemon–Sesame Ginger Dressing", "description": "A satisfying, protein-rich salad with warm roasted sweet potato, golden tofu, and crisp romaine. The zesty sesame-ginger dressing ties it all together.", "serves": "2–3", "day": "Tuesday", "meal": "5:30 PM 🌿 Evening", "category": "salads", "texture_goal": "Crisp romaine base with warm, golden tofu and sweet potato chunks — contrasting textures with a bright, nutty dressing.", "ingredient_groups": [{"group": "Salad", "items": ["2–3 cups romaine lettuce, chopped", "1 medium sweet potato, peeled and cubed", "¾–1 cup shelled edamame, steamed", "200g firm tofu, cubed", "1 tbsp sesame seeds (toasted)", "1 tbsp olive oil (for roasting)", "½ tsp salt", "½ tsp paprika or cumin"]}, {"group": "Lemon–Sesame Ginger Dressing", "items": ["2 tbsp fresh lemon juice", "1 tbsp sesame oil", "1 tbsp olive oil", "1 tsp soy sauce or tamari", "1 tsp maple syrup or honey", "½ tsp grated ginger", "½ tsp Dijon mustard (optional)", "1–2 tbsp water (to thin)", "pinch black pepper"]}, {"group": "Optional Additions", "items": ["sliced avocado", "pickled onions", "chili flakes"]}], "steps": [{"num": 1, "title": "Roast the sweet potato", "text": "Preheat oven to 400°F / 200°C. Toss sweet potato cubes with olive oil, salt, and paprika. Roast 20–25 minutes until golden and tender.", "timer": 25}, {"num": 2, "title": "Cook the tofu", "text": "Pat tofu dry and cube. Heat a pan with 1 tsp oil. Cook tofu 6–8 minutes, turning until golden on all sides. Optional: add a splash of soy sauce for flavour.", "timer": 8}, {"num": 3, "title": "Prepare the vegetables", "text": "Chop romaine lettuce. Steam edamame for 3–4 minutes if frozen.", "timer": 4}, {"num": 4, "title": "Make the dressing", "text": "Shake all dressing ingredients together in a jar until smooth and emulsified."}, {"num": 5, "title": "Assemble", "text": "In a large bowl combine romaine, edamame, and cooked tofu. Add dressing and toss lightly. Gently fold in roasted sweet potato last to keep it intact."}, {"num": 6, "title": "Finish", "text": "Sprinkle with toasted sesame seeds. Add optional avocado, pickled onions, or chili flakes as desired."}], "serving_ideas": ["Serve immediately while sweet potato is still warm", "Works as a standalone dinner or alongside a light soup", "Pack tofu and sweet potato separately if meal-prepping"], "macros": {"name": "Romaine-Sweet Potato-Edamame-Tofu Salad + Beet-Banana Smoothie", "note": "200g tofu, 1 sweet potato, ¾ cup edamame, romaine, sesame + beet smoothie", "kcal": 480, "protein": 30, "carbs": 46, "fat": 20, "fiber": 12, "iron": 5.2, "calcium": 340, "b12": 0.0, "zinc": 3.4, "vitc": 52, "folate": 160}}, {"id": "smoky_baingan_chana_bharta", "title": "Smoky Baingan–Chana Bharta", "subtitle": "Dry, Dhaba-Style", "description": "A smoky, protein-rich bharta made with roasted eggplant and chickpeas. This version is dry and scoopable with roti rather than saucy. Optional yogurt or lemon can be added for tang.", "serves": "3–4", "day": "Wednesday", "meal": "1:30 PM 🥗 Lunch", "category": "salads", "texture_goal": "Smoky, chunky, dry enough to scoop with roti — similar to a bharta + chole mash.", "ingredient_groups": [{"group": "Main", "items": ["1 large eggplant (baingan)", "1–1½ cups cooked chickpeas", "1 medium onion, finely chopped", "1 tomato, finely chopped"]}, {"group": "Aromatics", "items": ["1 tbsp ginger, finely chopped", "3 cloves garlic, finely chopped", "1 green chili, finely chopped (optional)"]}, {"group": "Spices", "items": ["1 tsp cumin seeds", "1 tsp coriander powder", "½ tsp turmeric", "½–1 tsp red chili powder", "½ tsp garam masala", "salt to taste"]}, {"group": "Finishing Flavors", "items": ["½ tsp kasuri methi (crushed)", "2 tbsp cilantro, chopped", "1 tsp mustard oil (optional but authentic)"]}, {"group": "Optional Tang (choose one)", "items": ["1–2 tbsp yogurt", "squeeze of lemon juice"]}, {"group": "Optional Green Add-ins", "items": ["chopped spinach", "chopped methi (fenugreek) leaves", "finely chopped green bell pepper", "small handful fresh moringa leaves", "moringa powder (½ tsp)", "green peas"]}], "steps": [{"num": 1, "title": "Roast the eggplant", "text": "Roast whole eggplant over flame, broiler, or oven (425°F / 220°C) until skin is charred and flesh is soft. Cool → peel → roughly mash."}, {"num": 2, "title": "Cook the base", "text": "Heat 1½ tbsp oil in a pan. Add cumin seeds — when they crackle, add onion + pinch of salt. Cook until lightly golden."}, {"num": 3, "title": "Add aromatics", "text": "Add garlic, ginger, and green chili. Cook about 1 minute until fragrant."}, {"num": 4, "title": "Add spices and tomato", "text": "Add coriander powder, turmeric, and chili powder. Then add the tomato. Cook until tomatoes break down, mixture becomes thick and slightly dry, and oil begins to separate."}, {"num": 5, "title": "Add eggplant and chickpeas", "text": "Add mashed roasted eggplant and chickpeas. Mash about 25% of the chickpeas with the spoon. Cook uncovered 8–10 minutes until dry and cohesive. If using green add-ins, stir them in during this step.", "timer": 10}, {"num": 6, "title": "Finish", "text": "Add garam masala, kasuri methi, mustard oil (optional), and cilantro. Cook 1 minute.", "timer": 1}, {"num": 7, "title": "Optional tang", "text": "Finish with 1–2 tbsp yogurt (creamier) OR a squeeze of lemon juice (brighter)."}], "serving_ideas": ["Whole-wheat roti or paratha", "Wrap filling", "Savory toast topping", "Side with dal and salad"], "macros": {"name": "Smoky Baingan-Chana Bharta + quinoa + zucchini", "note": "1 large eggplant, 1½ cup chickpeas, ¾ cup quinoa, ½ zucchini", "kcal": 490, "protein": 22, "carbs": 68, "fat": 12, "fiber": 18, "iron": 5.8, "calcium": 110, "b12": 0.0, "zinc": 3.2, "vitc": 14, "folate": 220}}, {"id": "creamy_feta_caesar_style_salad", "title": "Creamy Feta Caesar-Style Salad", "subtitle": "with Feta Caesar Dressing, Roasted Chickpeas & Eggs", "description": "A lighter Caesar-style salad built on romaine and roasted chickpeas, dressed with a creamy feta dressing that's tangy, garlicky, and rich — no anchovies needed. Topped with boiled eggs and avocado for a complete dinner.", "serves": "2", "day": "Wednesday", "meal": "5:30 PM 🌿 Evening", "category": "salads", "texture_goal": "Creamy and tangy dressing coating crisp romaine, with crunchy chickpeas and croutons, softened by rich avocado and egg.", "ingredient_groups": [{"group": "Salad", "items": ["4 cups romaine lettuce, chopped", "¾ cup roasted chickpeas", "¾ cup croutons", "3 hard-boiled eggs, halved", "1 avocado, sliced", "extra Parmesan (optional)"]}, {"group": "Creamy Feta Caesar Dressing", "items": ["⅓ cup crumbled feta (from the brine)", "2 tbsp Greek yogurt", "2 tbsp olive oil", "1½ tbsp lemon juice", "1 tsp Dijon mustard", "1 small garlic clove, grated", "1 tsp feta brine", "fresh black pepper", "1–2 tbsp water (to thin)"]}, {"group": "Optional", "items": ["½ tsp lemon zest (if feta is very salty — balances beautifully)", "½ tsp honey (alternative balance)"]}], "steps": [{"num": 1, "title": "Make the dressing", "text": "Add feta, yogurt, lemon juice, Dijon, garlic, and olive oil to a bowl or blender. Blend or whisk until smooth and creamy. Add 1 tsp feta brine and black pepper. Thin with 1–2 tbsp water until pourable. Taste before adding salt — the feta usually provides enough."}, {"num": 2, "title": "Roast the chickpeas", "text": "Preheat oven to 400°F / 200°C. Toss chickpeas with 1 tsp olive oil, pinch salt, ½ tsp paprika or cumin. Roast 15–20 minutes until crisp.", "timer": 20}, {"num": 3, "title": "Boil the eggs", "text": "Boil eggs for 9–10 minutes for fully set yolks. Cool in ice water, peel, and halve.", "timer": 10}, {"num": 4, "title": "Assemble", "text": "Toss romaine and chickpeas with dressing. Add croutons and toss again lightly. Top with halved eggs and sliced avocado. Add optional Parmesan and a squeeze of lemon."}], "serving_ideas": ["Serve immediately after dressing for maximum crunch", "Make dressing up to 3 days ahead and refrigerate", "Roasted chickpeas can be done during lunch prep"], "macros": {"name": "Feta Caesar Salad (romaine, chickpeas, eggs, avocado) + Berry Smoothie", "note": "Romaine, ¾ cup chickpeas, 3 eggs, 1 avocado, feta dressing + berry-yogurt smoothie", "kcal": 540, "protein": 32, "carbs": 42, "fat": 28, "fiber": 14, "iron": 4.8, "calcium": 360, "b12": 1.8, "zinc": 3.2, "vitc": 48, "folate": 200}}, {"id": "romaine_avocado_and_roasted_chickpea_sal", "title": "Romaine, Avocado & Roasted Chickpea Salad", "subtitle": "with Lemon-Herb Dressing", "description": "A bright, fresh salad with crunchy roasted chickpeas, creamy avocado, and a simple herb-forward lemon dressing. Light but filling.", "serves": "2", "day": "Thursday", "meal": "5:30 PM 🌿 Evening", "category": "salads", "texture_goal": "Crisp romaine and crunchy chickpeas against creamy avocado, finished with a bright, herby lemon dressing.", "ingredient_groups": [{"group": "Salad", "items": ["4 cups romaine lettuce, chopped", "1 large avocado, diced or sliced", "¾ cup roasted chickpeas", "½ cup cucumber, diced", "¼ cup cherry tomatoes, halved", "3 tbsp feta cheese, crumbled (optional)", "2 tbsp toasted sunflower seeds or pumpkin seeds"]}, {"group": "Lemon-Herb Dressing", "items": ["2 tbsp olive oil", "1½ tbsp lemon juice", "1 tsp Dijon mustard", "½ tsp honey or maple syrup", "1 tbsp chopped parsley or dill", "½ small garlic clove, grated", "salt & black pepper"]}], "steps": [{"num": 1, "title": "Roast the chickpeas", "text": "Preheat oven to 400°F / 200°C. Toss ¾ cup cooked chickpeas with 1 tsp olive oil, pinch salt, and ½ tsp paprika or cumin. Roast 15–20 minutes until crisp. Protein contribution: ~10–12g.", "timer": 20}, {"num": 2, "title": "Make the dressing", "text": "Whisk together olive oil, lemon juice, Dijon, honey, parsley or dill, garlic, salt and pepper until emulsified."}, {"num": 3, "title": "Assemble", "text": "Add romaine, cucumber, tomatoes, and chickpeas to a large bowl. Toss with lemon-herb dressing. Gently fold in avocado last to keep it intact. Sprinkle feta and seeds on top."}], "serving_ideas": ["Dress just before serving to keep romaine crisp", "Roasted chickpeas can be made ahead and stored at room temp", "Add a poached egg on top for extra protein"], "macros": {"name": "Romaine-Avocado-Chickpea Salad with Lemon-Herb Dressing + Mango Smoothie", "note": "4 cups romaine, 1 avocado, ¾ cup chickpeas, cucumber, tomatoes, feta + mango smoothie", "kcal": 520, "protein": 22, "carbs": 48, "fat": 28, "fiber": 16, "iron": 4.2, "calcium": 260, "b12": 0.6, "zinc": 2.6, "vitc": 60, "folate": 180}}, {"id": "broccoli_crunch_dinner_bowl", "title": "Broccoli Crunch Dinner Bowl", "subtitle": "with Quinoa, Edamame & Eggs", "description": "A substantial crunch bowl built on a creamy yogurt-honey dressing. Raw broccoli, apple, walnuts, and cranberries sit on a quinoa base, topped with edamame and boiled eggs for serious protein.", "serves": "2", "day": "Friday", "meal": "5:30 PM 🌿 COMFORT EVENING ✨", "category": "salads", "texture_goal": "Crunchy raw broccoli and walnuts coated in a creamy tangy dressing, on fluffy quinoa — topped with soft egg and bright edamame.", "ingredient_groups": [{"group": "Quinoa Base", "items": ["1 cup quinoa, uncooked", "2 cups water", "½ tsp salt"]}, {"group": "Broccoli Salad", "items": ["3 cups broccoli florets, finely chopped", "1 apple, diced", "¼ cup dried cranberries", "¼ cup red onion, finely chopped", "¼ cup parsley, chopped", "⅓ cup walnuts, toasted"]}, {"group": "Protein", "items": ["1 cup shelled edamame, cooked", "3 eggs, boiled and halved"]}, {"group": "Creamy Honey-Yogurt Dressing", "items": ["3 tbsp Greek yogurt", "1 tbsp mayonnaise", "1 tbsp honey or maple syrup", "1½ tbsp apple cider vinegar", "1 tsp Dijon mustard (optional)", "salt & black pepper to taste"]}, {"group": "Optional Toppings", "items": ["sliced avocado", "feta cheese", "pumpkin seeds or extra walnuts", "squeeze of lemon"]}], "steps": [{"num": 1, "title": "Cook the quinoa", "text": "Rinse quinoa well. Bring quinoa, water, and salt to a boil. Cover and simmer 12–15 minutes. Turn off heat and rest 5 minutes, then fluff with a fork.", "timer": 15}, {"num": 2, "title": "Prepare the broccoli salad", "text": "In a large bowl combine chopped broccoli, diced apple, red onion, cranberries, parsley, and toasted walnuts."}, {"num": 3, "title": "Make the dressing", "text": "Whisk together Greek yogurt, mayonnaise, honey, apple cider vinegar, Dijon mustard (if using), salt and pepper until smooth. Toss with the broccoli mixture and let sit for 5+ minutes — the broccoli softens slightly and the flavours meld.", "timer": 5}, {"num": 4, "title": "Assemble the bowls", "text": "Divide quinoa between bowls. Top with broccoli salad, edamame, and halved boiled eggs. Add optional toppings as desired."}], "serving_ideas": ["Make-ahead: cook quinoa and eggs the night before", "Toss broccoli with dressing and refrigerate — flavours improve overnight", "Assemble bowls just before eating"], "macros": {"name": "Egg Curry + Broccoli Crunch Bowl (quinoa, edamame, eggs) + arugula side", "note": "2 boiled eggs in curry, toast, dal + broccoli/apple/walnut/edamame bowl on quinoa", "kcal": 620, "protein": 36, "carbs": 56, "fat": 24, "fiber": 16, "iron": 6.2, "calcium": 280, "b12": 2.4, "zinc": 4.0, "vitc": 80, "folate": 200}}, {"id": "thai_peanut_cucumber_and_bell_pepper_din", "title": "Thai Peanut Cucumber & Bell Pepper Dinner Bowl", "subtitle": "with Quinoa, Edamame & Eggs", "description": "A vibrant Thai-inspired dinner bowl with crunchy cucumbers, sweet mini peppers, creamy peanut dressing, and a quinoa base. Fresh, punchy, and deeply satisfying.", "serves": "2–2½", "day": "Saturday", "meal": "5:30 PM 🌿 Evening", "category": "salads", "texture_goal": "Crisp cucumber and pepper crunch against creamy peanut dressing — fresh, punchy, and satisfying on a fluffy quinoa base.", "ingredient_groups": [{"group": "Quinoa Base", "items": ["1 cup quinoa, uncooked", "2 cups water", "pinch salt"]}, {"group": "Crunchy Salad Base", "items": ["3–4 mini cucumbers, sliced", "8–10 mini sweet peppers, sliced", "¼ red onion, thinly sliced", "½ cup shredded carrots", "2 tbsp cilantro, chopped"]}, {"group": "Protein", "items": ["1 cup shelled edamame", "3 boiled eggs, halved", "200g crispy tofu cubes (optional upgrade)"]}, {"group": "Healthy Crunch", "items": ["¼ cup roasted peanuts or cashews", "1 tbsp toasted sesame seeds", "½ avocado, sliced"]}, {"group": "Thai Peanut Dressing", "items": ["3 tbsp natural peanut butter", "1½ tbsp lime juice", "1 tbsp soy sauce or tamari", "1 tsp sesame oil", "1 tsp honey or maple syrup", "1 tsp fresh grated ginger", "1 small garlic clove, grated", "2–4 tbsp warm water (to thin)"]}, {"group": "Optional Flavor Boost", "items": ["½ tsp chili crisp or chili paste", "everything-bagel seasoning", "extra lime squeeze"]}], "steps": [{"num": 1, "title": "Cook the quinoa", "text": "Rinse quinoa. Bring with water and salt to a boil, cover and simmer ~15 minutes. Rest 5 minutes off heat, then fluff.", "timer": 15}, {"num": 2, "title": "Make the peanut dressing", "text": "Whisk together peanut butter, lime juice, soy sauce, sesame oil, honey, ginger, and garlic. Add warm water 1 tbsp at a time until creamy and pourable. Add chili crisp if using."}, {"num": 3, "title": "Prep the vegetables", "text": "Slice cucumbers, peppers, and red onion. Shred carrots. Toss all vegetables and cilantro with a little dressing."}, {"num": 4, "title": "Assemble the bowls", "text": "Divide quinoa between bowls. Add the dressed salad mixture. Top with edamame, boiled eggs, peanuts, sesame seeds, and avocado. Drizzle remaining dressing over everything."}, {"num": 5, "title": "Optional finish", "text": "Sprinkle with everything-bagel seasoning, chili crisp, and an extra squeeze of lime for crunch and a spicy finish."}], "serving_ideas": ["Make-ahead: cook quinoa, boil eggs, mix dressing, chop vegetables — all the night before", "Keep salad undressed until serving so cucumbers stay crisp", "Crispy tofu adds another protein tier and great texture"], "macros": {"name": "Thai Peanut Bowl (cucumbers, peppers, edamame, eggs, quinoa) + Avocado-Mango Smoothie", "note": "Mini cucumbers, peppers, ¾ cup edamame, 3 eggs, quinoa, peanut dressing + smoothie", "kcal": 580, "protein": 32, "carbs": 58, "fat": 24, "fiber": 14, "iron": 4.6, "calcium": 220, "b12": 1.4, "zinc": 3.4, "vitc": 72, "folate": 170}}];
+
+const RECIPE_CATEGORIES = [
+  { id: 'breakfasts', label: '☀ Breakfasts', color: '#E8820C' },
+  { id: 'lunches', label: '🥗 Lunches', color: '#2D6A4F' },
+  { id: 'salads', label: '🌿 Salads & Bowls', color: '#0B7A75' },
+  { id: 'foundations', label: '🫙 Foundations', color: '#A0390A' }
+];
+
+// ── SWITCH VIEW ──
+function switchView(v) {
+  activeView = v;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  document.getElementById('dayTabs').style.display = (v === 'mealplan') ? 'flex' : 'none';
+  if (v === 'mealplan') render();
+  else if (v === 'prepguide') renderPrepGuide();
+  else if (v === 'recipes') renderRecipes();
+}
+
+// ════════════════════════════════════════════════════════════════
+// PREP GUIDE RENDER
+// ════════════════════════════════════════════════════════════════
+function renderPrepGuide() {
+  const main = document.getElementById('main');
+  const pg = PREP_GUIDE;
+
+  const windowsHtml = pg.windows.map(w => `
+    <div class="pg-window">
+      <div class="pg-window-label">${w.label}</div>
+      <div class="pg-window-title">${w.title}</div>
+      <div class="pg-window-time">⏱ ${w.time} &nbsp;·&nbsp; ${w.desc}</div>
+    </div>`).join('');
+
+  let html = `
+    <div class="pg-hero">
+      <h1>Weekly Prep Guide</h1>
+      <p>Everything you can make ahead and store safely for the week. These batch items power the daily cooking — each is used across multiple meals.</p>
+      <div class="pg-windows">${windowsHtml}</div>
+    </div>`;
+
+  // ── Sunday section ──
+  html += `<div class="pg-section">
+    <div class="pg-section-title">☀ Sunday Evening Prep <span style="font-size:15px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;">~75 min total</span></div>
+    <div class="pg-section-desc">Do all of this before the week starts. Each item below keeps for 5-7 days and is used across multiple dishes.</div>
+    <div class="pg-items">`;
+
+  pg.sunday.forEach((item, idx) => {
+    const tagHtml = item.usedIn.map(u => `<span class="pg-tag uses">${u}</span>`).join('');
+    const metaHtml = Object.entries(item.meta).map(([k,v]) => `
+      <div class="pg-meta-cell"><div class="pg-meta-label">${k}</div><div class="pg-meta-val">${v}</div></div>`).join('');
+
+    // special content
+    let bodyContent = '';
+    if (item.smoothiePacks) {
+      bodyContent += `<div class="pg-meta-grid">${metaHtml}</div>
+        <table class="pg-smoothie-table">
+          <tr><th>Day</th><th>Label</th><th>Pack contents (freeze)</th></tr>
+          ${item.smoothiePacks.map(p => `<tr><td>${p.day}</td><td>${p.label}</td><td>${p.contents}</td></tr>`).join('')}
+        </table>`;
+    } else if (item.dressings) {
+      bodyContent += `<div class="pg-meta-grid">${metaHtml}</div>`;
+      item.dressings.forEach(d => {
+        bodyContent += `<div style="margin-bottom:10px;padding:10px 14px;background:var(--saffron-light);border-left:3px solid var(--saffron);border-radius:0 6px 6px 0;">
+          <div style="font-size:13px;font-weight:700;color:var(--saffron);margin-bottom:3px;">${d.day} · ${d.name} <span style="font-size:11px;color:var(--muted);font-weight:400;">(keeps ${d.keeps})</span></div>
+          <div style="font-size:13px;color:var(--text);">${d.recipe}</div>
+        </div>`;
+      });
+    } else {
+      bodyContent += `<div class="pg-meta-grid">${metaHtml}</div>
+        <div class="pg-steps">${item.steps.map((s,i) => `
+          <div class="pg-step">
+            <div class="pg-step-num">${i+1}</div>
+            <div class="pg-step-text">${s}</div>
+          </div>`).join('')}
+        </div>`;
+    }
+    if (item.note) bodyContent += `<div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;padding:8px 12px;background:rgba(0,0,0,0.03);border-radius:6px;">💡 ${item.note}</div>`;
+
+    html += `
+      <div class="pg-card" id="pgcard_${idx}">
+        <div class="pg-card-header" onclick="togglePgCard(${idx})">
+          <div class="pg-card-num">${item.num}</div>
+          <div class="pg-card-meta">
+            <div class="pg-card-title">${item.title} <span style="font-size:12px;color:var(--muted);font-weight:400;">— ${item.time}</span></div>
+            <div class="pg-card-tags">${tagHtml}</div>
+          </div>
+          <div class="pg-card-toggle">⌄</div>
+        </div>
+        <div class="pg-card-body">${bodyContent}</div>
+      </div>`;
+  });
+  html += `</div></div>`;
+
+  // ── Monday night ──
+  const mon = pg.monday;
+  html += `<div class="pg-section">
+    <div class="pg-section-title">🌙 Monday Night <span style="font-size:15px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;">${mon.time}</span></div>
+    <div class="pg-section-desc">One quick task that sets up the first half of the week.</div>
+    <div class="pg-card open" id="pgcard_mon">
+      <div class="pg-card-header" onclick="togglePgCard('mon')">
+        <div class="pg-card-num">→</div>
+        <div class="pg-card-meta">
+          <div class="pg-card-title">${mon.title}</div>
+          <div class="pg-card-subtitle" style="margin-top:3px;">${mon.subtitle}</div>
+        </div>
+        <div class="pg-card-toggle">⌄</div>
+      </div>
+      <div class="pg-card-body">
+        <div class="pg-meta-grid">${Object.entries(mon.meta).map(([k,v]) => `<div class="pg-meta-cell"><div class="pg-meta-label">${k}</div><div class="pg-meta-val">${v}</div></div>`).join('')}</div>
+        <div class="pg-steps">${mon.steps.map((s,i) => `<div class="pg-step"><div class="pg-step-num">${i+1}</div><div class="pg-step-text">${s}</div></div>`).join('')}</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;padding:8px 12px;background:rgba(0,0,0,0.03);border-radius:6px;">💡 ${mon.note}</div>
+      </div>
+    </div>
+  </div>`;
+
+  // ── Thursday night ──
+  const thu = pg.thursday;
+  html += `<div class="pg-section">
+    <div class="pg-section-title">🌙 Thursday Night <span style="font-size:15px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;">${thu.time}</span></div>
+    <div class="pg-section-desc">Second roti dough batch — powers the weekend.</div>
+    <div class="pg-card" id="pgcard_thu">
+      <div class="pg-card-header" onclick="togglePgCard('thu')">
+        <div class="pg-card-num">→</div>
+        <div class="pg-card-meta">
+          <div class="pg-card-title">${thu.title}</div>
+          <div class="pg-card-subtitle" style="margin-top:3px;">${thu.subtitle}</div>
+        </div>
+        <div class="pg-card-toggle">⌄</div>
+      </div>
+      <div class="pg-card-body">
+        <div class="pg-meta-grid">${Object.entries(thu.meta).map(([k,v]) => `<div class="pg-meta-cell"><div class="pg-meta-label">${k}</div><div class="pg-meta-val">${v}</div></div>`).join('')}</div>
+        <div class="pg-steps">${thu.steps.map((s,i) => `<div class="pg-step"><div class="pg-step-num">${i+1}</div><div class="pg-step-text">${s}</div></div>`).join('')}</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;padding:8px 12px;background:rgba(0,0,0,0.03);border-radius:6px;">💡 ${thu.note}</div>
+      </div>
+    </div>
+  </div>`;
+
+  // ── Rolling daily prep ──
+  html += `<div class="pg-section">
+    <div class="pg-section-title">🔄 Daily Rolling Prep <span style="font-size:15px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;">can't be batched</span></div>
+    <div class="pg-section-desc">These are done each evening or morning and can't be prepared in advance.</div>
+    <div class="pg-rolling-grid">
+      ${pg.rolling.map(r => `<div class="pg-rolling-card"><div class="pg-rolling-title">${r.title}</div><div class="pg-rolling-note">${r.note}</div></div>`).join('')}
+    </div>
+  </div>`;
+
+  // ── Fridge reference ──
+  html += `<div class="pg-section">
+    <div class="pg-section-title">🧊 What's In Your Fridge After Sunday</div>
+    <table class="pg-fridge-table">
+      <tr><th>Container</th><th>Keeps until</th><th>Used for</th></tr>
+      ${pg.fridge.map(r => `<tr><td>${r.container}</td><td>${r.keeps}</td><td>${r.usedFor}</td></tr>`).join('')}
+    </table>
+  </div>`;
+
+  main.innerHTML = html;
+}
+
+function togglePgCard(id) {
+  const card = document.getElementById(`pgcard_${id}`);
+  if (card) card.classList.toggle('open');
+}
+
+// ════════════════════════════════════════════════════════════════
+// RECIPE BOOK RENDER
+// ════════════════════════════════════════════════════════════════
+function renderRecipes() {
+  const main = document.getElementById('main');
+  if (!activeRecipeId && RECIPES.length > 0) activeRecipeId = RECIPES[0].id;
+
+  // Build sidebar
+  let sidebarHtml = '';
+  RECIPE_CATEGORIES.forEach(cat => {
+    const catRecipes = RECIPES.filter(r => r.category === cat.id);
+    if (!catRecipes.length) return;
+    sidebarHtml += `<div class="rb-sidebar-section">
+      <div class="rb-sidebar-heading" style="color:${cat.color}">${cat.label}</div>
+      ${catRecipes.map(r => `<button class="rb-sidebar-item ${r.id === activeRecipeId ? 'active' : ''}"
+        onclick="selectRecipe('${r.id}')">${r.title}</button>`).join('')}
+    </div>`;
+  });
+
+  // Build recipe content
+  const recipe = RECIPES.find(r => r.id === activeRecipeId);
+  const recipeHtml = recipe ? renderRecipeContent(recipe) : '<div class="rb-empty"><div class="rb-empty-icon">📖</div>Select a recipe from the sidebar</div>';
+
+  main.innerHTML = `<div class="rb-wrap">
+    <div class="rb-sidebar">${sidebarHtml}</div>
+    <div class="rb-content" id="rbContent">${recipeHtml}</div>
+  </div>`;
+}
+
+function selectRecipe(id) {
+  activeRecipeId = id;
+  renderRecipes();
+  // Scroll content to top
+  const el = document.getElementById('rbContent');
+  if (el) el.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderRecipeContent(r) {
+  const isFoundation = r.category === 'foundations';
+  const accentColor = isFoundation ? '#A0390A' : (r.category === 'salads' ? '#0B7A75' : (r.category === 'breakfasts' ? '#7B5EA7' : 'var(--green)'));
+
+  let html = `<div class="${isFoundation ? 'rb-foundation' : ''}">`;
+  html += `<div class="rb-week-tag">Week 1</div>`;
+  html += `<div class="rb-recipe-title">${r.title}</div>`;
+  if (r.subtitle) html += `<div class="rb-recipe-subtitle">${r.subtitle}</div>`;
+  html += `<div class="rb-day-badge">${r.day} · ${r.meal.replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '').trim()}</div>`;
+  if (r.description) html += `<div class="rb-desc">${r.description}</div>`;
+
+  // Meta strip
+  html += `<div class="rb-meta-strip">
+    <div class="rb-chip"><span>Serves</span>${r.serves || '2 adults'}</div>`;
+  if (r.texture_goal) html += `<div class="rb-chip"><span>Texture goal</span>${r.texture_goal}</div>`;
+  html += `</div>`;
+
+  // Macros
+  if (r.macros && r.macros.kcal) {
+    const m = r.macros;
+    html += `<div class="rb-macro-bar">
+      <div class="rb-macro-chip"><div class="rb-macro-icon">🔥</div><div class="rb-macro-val">${m.kcal}</div><div class="rb-macro-label">kcal</div></div>
+      <div class="rb-macro-chip"><div class="rb-macro-icon">🥩</div><div class="rb-macro-val">${m.protein}g</div><div class="rb-macro-label">protein</div></div>
+      <div class="rb-macro-chip"><div class="rb-macro-icon">🌾</div><div class="rb-macro-val">${m.carbs}g</div><div class="rb-macro-label">carbs</div></div>
+      <div class="rb-macro-chip"><div class="rb-macro-icon">🫒</div><div class="rb-macro-val">${m.fat}g</div><div class="rb-macro-label">fat</div></div>
+      <div class="rb-macro-chip"><div class="rb-macro-icon">🌿</div><div class="rb-macro-val">${m.fiber}g</div><div class="rb-macro-label">fiber</div></div>
+    </div>`;
+  }
+
+  // Ingredients
+  if (r.ingredient_groups && r.ingredient_groups.length) {
+    html += `<div class="rb-section-label" style="color:${accentColor};border-bottom-color:${accentColor};">Ingredients</div>`;
+    r.ingredient_groups.forEach(g => {
+      html += `<div class="rb-ingredient-group">
+        <div class="rb-ig-name">${g.group}</div>
+        <ul class="rb-ig-list">${g.items.map(i => `<li>${i}</li>`).join('')}</ul>
+      </div>`;
+    });
+  }
+
+  // Steps
+  if (r.steps && r.steps.length) {
+    html += `<div class="rb-section-label">Method</div><div class="rb-steps">`;
+    r.steps.forEach(s => {
+      html += `<div class="rb-step">
+        <div class="rb-step-num">${s.num || ''}</div>
+        <div class="rb-step-body">
+          <div class="rb-step-title">${s.title}${s.timer ? `<span class="rb-step-timer">⏱ ${s.timer} min</span>` : ''}</div>
+          <div class="rb-step-text">${s.text}</div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Serving ideas
+  if (r.serving_ideas && r.serving_ideas.length) {
+    html += `<div class="rb-serving">
+      <div class="rb-serving-title">Serving Ideas & Notes</div>
+      <ul>${r.serving_ideas.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+// ── INIT ──
+// Auto-select today if possible
+const TODAY = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+if (DAYS.includes(TODAY)) activeDay = TODAY;
+
+// Auto-open all breakfast/lunch cards with prep steps
+MEAL_DATA.filter(m => m.day === activeDay).forEach((meal, idx) => {
+  const key = `${activeDay}_${idx}`;
+  const hasMorning = parseSteps(meal.morning).length > 0;
+  if (hasMorning) {
+    openCards[key] = true;
+    activeCardTab[key] = 'prep';
+  }
+});
+
+render();
+</script>
+</body>
+</html>
